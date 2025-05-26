@@ -1,35 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Authprovider } from './context/authcontext';
+import { Cartprovider } from './context/cartcontext';
+import Login from './pages/login';
+import Produclist from './components/productlist';
+import Productform from './components/productform';
+
+
+export default function App() {
+
+    <Authprovider>
+      <Cartprovider>
+        <BrowserRouter>
+          <Headers/>
+          <Routes>
+            <Route path='/' element={<Produclist/>}/>
+            <Route path='/ajoutproduit' element={<Productform/>}/>
+            <Route path='/login' element={<Login/>}/>
+          </Routes>
+        </BrowserRouter>
+      </Cartprovider>
+    </Authprovider>
 }
 
-export default App
