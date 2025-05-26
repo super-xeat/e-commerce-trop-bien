@@ -1,0 +1,55 @@
+
+
+import usecard from "../context/cartcontext";
+import { useState } from "react";
+import { useAuth } from "../context/authcontext";
+
+export default function Productform() {
+
+    const [titre, settitre] = useState('')
+    const [description, setdescription] = useState('')
+    const [categorie, setcategorie] = useState('')
+    const {authentificated} = useAuth()
+    
+
+
+
+    async function handlesubmit(e) {
+        e.preventDefault()
+        try {
+            const response = await fetch('http://localhost:5173/product',
+                {method: 'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({titre, description, categorie})
+                }
+            )
+
+            const data = await response.json()
+            settitre('')
+            setdescription('')
+            setcategorie('')
+        } catch (error) {
+            console.error('erreur de connexion')
+        }
+        
+    }
+
+    return (
+        <div>
+            {!authentificated ? <h1>vous devez vous connecter</h1> : 
+            <form onSubmit={handlesubmit}>
+                <input onChange={(e)=>settitre(e.target.value)} type="text" value={titre}/>
+                <input onChange={(e)=>setdescription(e.target.value)} type="text" value={description}/>
+                <select onChange={(e)=>setcategorie(e.target.value)} value={categorie}>
+                    <option value="menage">ménage</option>
+                    <option value="salon">salon</option>
+                    <option value="jeux">jeux</option>
+                    <option value="voiture">voiture</option>
+                    <option value="equipement">equipement</option>
+                </select>
+                <button type="submit">ajouter</button>
+            </form>
+            }
+        </div>
+    )
+}
