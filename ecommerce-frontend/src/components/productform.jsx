@@ -9,10 +9,9 @@ export default function Productform() {
     const [titre, settitre] = useState('')
     const [description, setdescription] = useState('')
     const [categorie, setcategorie] = useState('')
+    const [price, setprice] = useState('')
     const {authentificated} = useAuth()
     
-
-
 
     async function handlesubmit(e) {
         e.preventDefault()
@@ -20,7 +19,7 @@ export default function Productform() {
             const response = await fetch('http://localhost:5173/product',
                 {method: 'POST',
                 headers: {'Content-type': 'application/json'},
-                body: JSON.stringify({titre, description, categorie})
+                body: JSON.stringify({titre, description, categorie, price})
                 }
             )
 
@@ -40,6 +39,7 @@ export default function Productform() {
             <form onSubmit={handlesubmit}>
                 <input onChange={(e)=>settitre(e.target.value)} type="text" value={titre}/>
                 <input onChange={(e)=>setdescription(e.target.value)} type="text" value={description}/>
+                <input onChange={(e)=>setprice(e.target.value)} type="text" value={price}/>
                 <select onChange={(e)=>setcategorie(e.target.value)} value={categorie}>
                     <option value="menage">ménage</option>
                     <option value="salon">salon</option>

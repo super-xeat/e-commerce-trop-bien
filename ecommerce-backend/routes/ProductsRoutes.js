@@ -28,4 +28,15 @@ route.get('/products/:id', async (req, res)=> {
     }
 })
 
+route.post('/product', async(req, res)=> {
+    const {titre, description, price, date, categorie} = req.body
+    try {
+        const newproduct = new Products({titre, description, price, date, categorie})
+        const saved = await newproduct.save()
+        res.json(saved)
+    } catch (error) {
+        return res.status(400).json({message: 'erreur'})
+    }
+})
+
 module.exports = route

@@ -25,12 +25,12 @@ router.post('/login', async (req, res)=> {
         }
 
         const token = jwt.sign(
-            { userId: existUser._id },
+            { userId: existuser._id },
             'cle_secrete',
-            {expired: '2h'})
+            {expiresIn: '2h'})
 
-        res.status(200).json({message:'cest bon'}, token, 
-            user: {id: existuser._id, name: existuser.name, email: existuser.email}
+        res.status(200).json({message:'cest bon', token, 
+            user: {id: existuser._id, name: existuser.name, email: existuser.email}}
         )
     } catch (error) {
         return res.status(400).json({message: 'erreur'})
@@ -43,10 +43,10 @@ router.post('/register', async (req, res)=> {
     try {
         const emailexist = await User.findOne({email})
         if (emailexist) {
-            res.status(400).json({message: 'email deja existant'})
+            return res.status(400).json({message: 'email deja existant'})
         }
 
-        const hashing = await bcrypt.hash(password)
+        const hashing = await bcrypt.hash(password, 10)
         const newuser = new User({name, email, password: hashing})
         const saved = await newuser.save()
 

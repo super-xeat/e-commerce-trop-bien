@@ -11,11 +11,14 @@ export function Authprovider({children}) {
     const [user, setuser] = useState('')
     const [token, settoken] = useState('')
 
+    const [name,setname] = useState('')
+    const [email, setmail] = useState('')
+    const [password, setpassword] = useState('')
+
 
     async function login(email, password) {
-        e.preventDefault()
         try {
-            const response = await fetch('http://localhost:3000/routes/login', {
+            const response = await fetch('http://localhost:3000/routes/api/login', {
                 method: 'POSt',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({email, password})
@@ -27,7 +30,27 @@ export function Authprovider({children}) {
             setauthentificated(true)
 
         } catch (error) {
-            return res.status(500).json({message: 'erreur'})
+            console.error('erreur')
+        }
+    }
+
+
+    async function register({name, email, password}) {
+        try {
+        const response = await fetch('http://localhost:3000/routes/api/register', {
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({name, email, password})
+        })
+
+        const data = await response.json()
+        console.log('vous etes connecté')
+        setauthentificated(true)
+        setname('')
+        setmail('')
+        setpassword('')
+        } catch (error) {
+            console.error('erreur')
         }
     }
 
@@ -38,7 +61,7 @@ export function Authprovider({children}) {
     }
 
     return (
-        <Authcontext.Provider value={{ user, token, authentificated, login, logout}}>
+        <Authcontext.Provider value={{ user, token, authentificated, login, logout, register}}>
             {children}
         </Authcontext.Provider>
     )
