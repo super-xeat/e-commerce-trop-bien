@@ -3,7 +3,7 @@
 
 
 const express = require('express')
-const router = express.Router()
+const route = express.Router()
 const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken')
 
 
 
-router.post('/login', async (req, res)=> {
+route.post('/login', async (req, res)=> {
     const {email, password} = req.body
     try {
         const existuser = await User.findOne({email})
@@ -38,7 +38,7 @@ router.post('/login', async (req, res)=> {
 })
 
 
-router.post('/register', async (req, res)=> {
+route.post('/register', async (req, res)=> {
     const {name, email, password} = req.body
     try {
         const emailexist = await User.findOne({email})
@@ -57,4 +57,4 @@ router.post('/register', async (req, res)=> {
 })
 
 
-module.exports = router
+module.exports = route

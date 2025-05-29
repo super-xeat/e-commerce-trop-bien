@@ -8,6 +8,7 @@ const Cartcontext = createContext()
 export function Cartprovider({children}) {
 
     const [liste, setliste] = useState([])
+    const [comments, setcomments] = useState([])
 
 
     function ajouter(newprod) {
@@ -25,13 +26,17 @@ export function Cartprovider({children}) {
         setliste(liste.filter(item => item.id !== id))
     }
 
+    function ajoutercom(newcom) {
+        setcomments([...comments, newcom])
+    }
+
     return(
-        <Cartcontext.Provider value={{ajouter, supprimer}}>
+        <Cartcontext.Provider value={{ajouter, supprimer, ajoutercom, comments, liste, setliste}}>
             {children}
         </Cartcontext.Provider>
     )
 }
 
 export default function usecard() {
-    return Cartcontext(Cartprovider)
+    return useContext(Cartcontext)
 }

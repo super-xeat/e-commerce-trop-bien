@@ -2,10 +2,10 @@
 
 const express = require('express')
 const route = express.Router()
-const Comments = require('./models/Comment')
+const Comments = require('../models/comment')
 
 
-route.get('/comments/:id', async (req, res)=> {
+route.get('/:id', async (req, res)=> {
     const {id} = req.params
     try {
         const comments = await Comments.find({product : id})
@@ -16,7 +16,7 @@ route.get('/comments/:id', async (req, res)=> {
 })
 
 
-route.post('/comments/:id', async(req, res)=> {
+route.post('/:id', async(req, res)=> {
     const {name, text } = req.body
     const {id} = req.params
     try {
@@ -27,3 +27,6 @@ route.post('/comments/:id', async(req, res)=> {
         return res.status(400).json({message: 'erreur'})
     }
 })
+
+
+module.exports = route

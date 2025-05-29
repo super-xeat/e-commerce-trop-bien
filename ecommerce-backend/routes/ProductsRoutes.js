@@ -2,12 +2,12 @@
 
 const express = require('express')
 const route = express.Router()
-const Products = require('./models/Product')
+const Products = require('../models/produit')
 
 
 
 
-route.get('/products', async (req, res)=> {
+route.get('/', async (req, res)=> {
     try {
     const products = await Products.find()
     res.json(products)
@@ -17,7 +17,7 @@ route.get('/products', async (req, res)=> {
 })
 
 
-route.get('/products/:id', async (req, res)=> {
+route.get('/:id', async (req, res)=> {
     const {id} = req.params
     try {
         const produit = await Products.findById(id)
@@ -28,7 +28,7 @@ route.get('/products/:id', async (req, res)=> {
     }
 })
 
-route.post('/product', async(req, res)=> {
+route.post('/', async(req, res)=> {
     const {titre, description, price, date, categorie} = req.body
     try {
         const newproduct = new Products({titre, description, price, date, categorie})
