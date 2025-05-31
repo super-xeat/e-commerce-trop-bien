@@ -39,6 +39,7 @@ route.post('/login', async (req, res)=> {
 
 
 route.post('/register', async (req, res)=> {
+    console.log('Données reçues :', req.body)
     const {name, email, password} = req.body
     try {
         const emailexist = await User.findOne({email})

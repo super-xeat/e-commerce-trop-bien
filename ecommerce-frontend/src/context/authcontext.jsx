@@ -18,13 +18,18 @@ export function Authprovider({children}) {
 
     async function login(email, password) {
         try {
-            const response = await fetch('http://localhost:3000/routes/api/login', {
-                method: 'POSt',
+            const response = await fetch('http://localhost:5000/auth/login', {
+                method: 'POST',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({email, password})
             })
 
             const data = await response.json()
+
+            if (!response.ok) {
+                console.error('erreur')
+                return
+            }
             setuser(data.user)
             settoken(data.token)
             setauthentificated(true)
@@ -37,13 +42,18 @@ export function Authprovider({children}) {
 
     async function register({name, email, password}) {
         try {
-        const response = await fetch('http://localhost:3000/routes/api/register', {
+        const response = await fetch('http://localhost:5000/auth/register', {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({name, email, password})
         })
 
         const data = await response.json()
+        if (!response.ok) {
+            console.error('Erreur serveur:', data.message || data);
+            return;
+          }
+      
         console.log('vous etes connecté')
         setauthentificated(true)
         setname('')

@@ -1,6 +1,6 @@
 
 
-import usecard from "../context/cartcontext";
+
 import { useState } from "react";
 import { useAuth } from "../context/authcontext";
 
@@ -16,10 +16,12 @@ export default function Productform() {
     async function handlesubmit(e) {
         e.preventDefault()
         try {
-            const response = await fetch('http://localhost:5173/product',
+            const response = await fetch('http://localhost:5000/products',
                 {method: 'POST',
-                headers: {'Content-type': 'application/json'},
-                body: JSON.stringify({titre, description, categorie, price})
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({titre, description, categorie, price: Number(price)})
                 }
             )
 
@@ -27,6 +29,7 @@ export default function Productform() {
             settitre('')
             setdescription('')
             setcategorie('')
+            setprice('')
         } catch (error) {
             console.error('erreur de connexion')
         }

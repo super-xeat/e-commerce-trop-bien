@@ -46,6 +46,6 @@ route.put('/:id', async(req, res)=> {
 })
 
 
-module.export = route
+module.exports = route
 
 

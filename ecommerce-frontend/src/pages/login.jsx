@@ -13,14 +13,14 @@ export default function Login() {
 
     async function submit_login(e) {
         e.preventDefault()
-        await login({email, password})
+        await login(email, password)
     }
     
     return(
         <div>
             <form onSubmit={submit_login}>
-                <input onChange={(e)=>setmail(e.target.value)} type="text" value={email}/>
-                <input onChange={(e)=>setpassword(e.target.value)} type="text" value={password}/>
+                <input onChange={(e)=>setmail(e.target.value)} type="email" value={email}/>
+                <input onChange={(e)=>setpassword(e.target.value)} type="password" value={password}/>
                 <button type="submit">envoyer</button>
             </form>
         </div>

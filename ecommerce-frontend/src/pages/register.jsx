@@ -14,8 +14,8 @@ export default function Register() {
     async function enregistre(e) {
         e.preventDefault()
         try {
-            await register({email, password, name})
-            await login({email, password})
+            await register({name, email, password})
+            await login(email, password)
         } catch (error) {
             return console.log('erreur', error)
         }
@@ -27,7 +27,7 @@ export default function Register() {
                 <p>créer un compte pour vous connecté :</p> 
                 <form onSubmit={enregistre}>
                     <input onChange={(e)=>setname(e.target.value)} value={name} type="text"/>
-                    <input onChange={(e)=>setmail(e.target.value)} value={email} type="text"/>
+                    <input onChange={(e)=>setmail(e.target.value)} value={email} type="email"/>
                     <input onChange={(e)=>setpassword(e.target.value)} value={password} type="password"/>
                     <button type="submit">enregistré</button>
                 </form> 

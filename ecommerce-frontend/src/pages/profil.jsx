@@ -12,7 +12,7 @@ export default function Profil() {
 
     useEffect(()=> {
         if (!user || !user.id) return
-        fetch(`http://localhost:3000/users/${user.id}`)
+        fetch(`http://localhost:5000/users/${user.id}`)
             .then(res => res.json())
             .then(data => {setmail(data.email)
                         setname(data.name)})
@@ -21,7 +21,7 @@ export default function Profil() {
     async function handlesubmit(e) {
         e.preventDefault()
         try {
-            const response = await fetch(`http://localhost:3000/users/${user.id}`, {
+            const response = await fetch(`http://localhost:5000/users/${user.id}`, {
                 method: 'PUT',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({email, name})

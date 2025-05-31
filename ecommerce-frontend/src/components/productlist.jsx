@@ -13,7 +13,7 @@ export default function Productlist() {
 
 
     useEffect(()=> {
-        fetch('http://localhost:3000/products')
+        fetch('http://localhost:5000/products')
         .then(res => res.json())
         .then(data => setliste(data))
     }, [])
@@ -24,7 +24,7 @@ export default function Productlist() {
             
             <ul>
                 {liste.map((prod)=> (
-                    <li key={prod.id}>
+                    <li key={prod._id}>
                         <Productcard produit={prod}/>
                         <button onClick={()=> supprimer(prod)}>supprimer</button>
                     </li>

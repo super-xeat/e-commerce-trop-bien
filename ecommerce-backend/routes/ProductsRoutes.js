@@ -6,7 +6,6 @@ const Products = require('../models/produit')
 
 
 
-
 route.get('/', async (req, res)=> {
     try {
     const products = await Products.find()
@@ -15,6 +14,7 @@ route.get('/', async (req, res)=> {
         return res.status(400).json({message: 'erreur'})
     }
 })
+
 
 
 route.get('/:id', async (req, res)=> {
@@ -29,12 +29,14 @@ route.get('/:id', async (req, res)=> {
 })
 
 route.post('/', async(req, res)=> {
-    const {titre, description, price, date, categorie} = req.body
+    console.log("Body reçu :", req.body);
+    const {titre, description, price, categorie} = req.body
     try {
-        const newproduct = new Products({titre, description, price, date, categorie})
+        const newproduct = new Products({titre, description, price, categorie})
         const saved = await newproduct.save()
         res.json(saved)
     } catch (error) {
+        console.error("Erreur lors de la sauvegarde :", error)
         return res.status(400).json({message: 'erreur'})
     }
 })
