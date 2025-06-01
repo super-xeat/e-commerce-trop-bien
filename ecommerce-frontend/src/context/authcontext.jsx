@@ -2,22 +2,21 @@
 
 import { useContext, useState, createContext } from "react";
 
-const Authcontext = createContext()
+const AuthContext = createContext()
 
 
-export function Authprovider({children}) {
+export const AuthProvider = ({ children }) => {
 
     const [authentificated, setauthentificated] = useState(false)
     const [user, setuser] = useState('')
     const [token, settoken] = useState('')
 
-    const [name,setname] = useState('')
-    const [email, setmail] = useState('')
-    const [password, setpassword] = useState('')
+    const [loading, setloading] = useState(true)
 
 
-    async function login(email, password) {
+    async function login( email, password) {
         try {
+            setloading(true)
             const response = await fetch('http://localhost:5000/auth/login', {
                 method: 'POST',
                 headers: {"Content-Type": "application/json"},
@@ -28,20 +27,24 @@ export function Authprovider({children}) {
 
             if (!response.ok) {
                 console.error('erreur')
+                setloading(false)
                 return
             }
             setuser(data.user)
             settoken(data.token)
             setauthentificated(true)
-
+            
         } catch (error) {
             console.error('erreur')
+        } finally {
+            setloading(false)
         }
     }
 
 
     async function register({name, email, password}) {
         try {
+        setloading(true)
         const response = await fetch('http://localhost:5000/auth/register', {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
@@ -51,16 +54,19 @@ export function Authprovider({children}) {
         const data = await response.json()
         if (!response.ok) {
             console.error('Erreur serveur:', data.message || data);
+            setloading(false)
             return;
           }
       
         console.log('vous etes connecté')
         setauthentificated(true)
-        setname('')
-        setmail('')
-        setpassword('')
+        setuser(data.user);
+        settoken(data.token);
+        
         } catch (error) {
             console.error('erreur')
+        } finally {
+            setloading(false)
         }
     }
 
@@ -70,13 +76,13 @@ export function Authprovider({children}) {
         setauthentificated(false)
     }
 
+    
+
     return (
-        <Authcontext.Provider value={{ user, token, authentificated, login, logout, register}}>
+        <AuthContext.Provider value={{ user, token, authentificated, login, logout, register, loading}}>
             {children}
-        </Authcontext.Provider>
+        </AuthContext.Provider>
     )
 }
 
-export function useAuth() {
-    return useContext(Authcontext)
-}
+export const useAuth = () => useContext(AuthContext);

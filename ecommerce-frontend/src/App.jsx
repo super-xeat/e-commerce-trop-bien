@@ -1,20 +1,20 @@
 
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Authprovider } from './context/authcontext';
-import { Cartprovider } from './context/cartcontext';
+import { AuthProvider } from './context/authcontext';
+import { CartProvider } from './context/cartcontext';
 import Login from './pages/login';
 import Productlist from './components/productlist';
 import Productform from './components/productform';
 import Navbar from './components/navbar';
 import Register from './pages/register';
-import Panier from './components/panier';
+import {Panier} from './components/panier';
 
 export default function App() {
 
   return(
-    <Authprovider>
-      <Cartprovider>
+    <AuthProvider>
+      <CartProvider>
         <BrowserRouter>
           <Navbar/>
           <Routes>
@@ -25,8 +25,8 @@ export default function App() {
             <Route path='/panier' element={<Panier/>}/>
           </Routes>
         </BrowserRouter>
-      </Cartprovider>
-    </Authprovider>
+      </CartProvider>
+    </AuthProvider>
   )
 }
 

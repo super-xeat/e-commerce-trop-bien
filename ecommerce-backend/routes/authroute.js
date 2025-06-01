@@ -30,7 +30,7 @@ route.post('/login', async (req, res)=> {
             {expiresIn: '2h'})
 
         res.status(200).json({message:'cest bon', token, 
-            user: {id: existuser._id, name: existuser.name, email: existuser.email}}
+            user: {_id: existuser._id, name: existuser.name, email: existuser.email}}
         )
     } catch (error) {
         return res.status(400).json({message: 'erreur'})

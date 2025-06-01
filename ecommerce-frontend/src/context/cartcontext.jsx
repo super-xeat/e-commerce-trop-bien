@@ -1,29 +1,58 @@
 
 
 import { useContext, createContext, useState } from "react";
+import { useAuth } from "./authcontext";
 
 
 const Cartcontext = createContext()
 
-export function Cartprovider({children}) {
+export const CartProvider = ({ children }) => {
 
-    const [liste, setliste] = useState([])
+    const [liste , setliste] = useState([])
     const [comments, setcomments] = useState([])
-
+    const [listeProduits, setListeProduits] = useState([])
+    const {user} = useAuth()
+    console.log("User from AuthContext:", user)
 
     function ajouter(newprod) {
-        const prodexist = liste.filter(item => item.id === newprod.id)
+        const prodexist = liste.find(item => item._id === newprod._id)
+        let majliste 
+
         if (prodexist) {
-            setliste(liste.map(item => item.id === newprod.id ? 
+            majliste = liste.map(item => item._id === newprod._id ? 
                 {...item, quantite: item.quantite + 1} : item
-            ))
+            )
+
         } else {
-            setliste([...liste, {newprod, quantite : 0}])
+            majliste = [...liste, {...newprod, quantite: 1}]
+        }
+
+        setliste(majliste)
+
+        const produitsAPoster = majliste.map(item => ({
+            produit: item._id,
+            quantite: item.quantite
+          }))
+
+        if (!user || !user._id) {
+            console.warn("Utilisateur non connecté, panier non enregistré.");
+            return;
+          }
+          
+        try {
+            fetch(`http://localhost:5000/panier/${user._id}`, {
+                method: 'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({produits: produitsAPoster})
+            })
+        } catch (error) {
+            console.error("erreur d'eregistrement", error)
         }
     }
 
+
     function supprimer(id) {
-        setliste(liste.filter(item => item.id !== id))
+        setliste(liste.filter(item => item._id !== id))
     }
 
     function ajoutercom(newcom) {
@@ -31,12 +60,10 @@ export function Cartprovider({children}) {
     }
 
     return(
-        <Cartcontext.Provider value={{ajouter, supprimer, ajoutercom, comments, liste, setliste}}>
+        <Cartcontext.Provider value={{ajouter, supprimer, ajoutercom, comments, liste, setliste, listeProduits, setListeProduits}}>
             {children}
         </Cartcontext.Provider>
     )
 }
 
-export default function usecard() {
-    return useContext(Cartcontext)
-}
+export const useCard = () => useContext(Cartcontext)

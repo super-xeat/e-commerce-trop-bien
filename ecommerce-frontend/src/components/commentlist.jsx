@@ -1,7 +1,7 @@
 
 
 
-import usecard from "../context/cartcontext";
+import {useCard} from "../context/cartcontext";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 
 export default function Commentlist() {
 
-    const {comments, setcomments} = usecard()
+    const {comments, setcomments} = useCard()
     const {id} = useParams()
 
     useEffect(()=> {

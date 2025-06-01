@@ -3,30 +3,32 @@
 
 import { useEffect } from "react";
 import Productcard from "./productcard";
-import usecard from "../context/cartcontext";
+import {useCard} from "../context/cartcontext";
 
 
 
 export default function Productlist() {
 
-    const {liste, setliste, supprimer} = usecard()
+    const {listeProduits, setListeProduits} = useCard()
 
 
     useEffect(()=> {
         fetch('http://localhost:5000/products')
         .then(res => res.json())
-        .then(data => setliste(data))
+        .then(data => setListeProduits(data))
     }, [])
+
+    
 
 
     return (
         <div>
             
             <ul>
-                {liste.map((prod)=> (
+                {listeProduits.map((prod)=> (
                     <li key={prod._id}>
                         <Productcard produit={prod}/>
-                        <button onClick={()=> supprimer(prod)}>supprimer</button>
+                        <button onClick={()=> supprimer(prod._id)}>supprimer</button>
                     </li>
                 ))}
             </ul>          

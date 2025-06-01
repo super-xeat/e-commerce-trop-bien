@@ -41,4 +41,18 @@ route.post('/', async(req, res)=> {
     }
 })
 
+
+route.delete('/:id', async (req, res)=> {
+    const {id} = req.params
+    try {
+        const produit = await Products.findByIdAndDelete(id)
+        if (!produit) {
+            return res.status(404).json({ message: 'Produit non trouvé' });
+        }
+        res.json({message: 'element supprimé', produit})       
+    } catch (error) {
+        res.status(400).json({messsage: 'erreur'})
+    }
+})
+
 module.exports = route

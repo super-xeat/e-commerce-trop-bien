@@ -1,45 +1,55 @@
 
-
-import usecard from "../context/cartcontext"
-import Productcard from "./productcard"
+import { useCard } from "../context/cartcontext"
 import { useEffect } from "react"
 import { useAuth } from "../context/authcontext"
+import Productcard from "./productcard"
 
+export const Panier = () => {
 
-
-export default function Panier() {
-
-    const {liste, setliste, supprimer} = usecard()
+    const {liste, setliste, supprimer} = useCard()
     const {user} = useAuth()
 
-    if (!user) {
-        return <p>Veuillez vous connecter pour voir votre panier.</p>;
-    }
-    
-
     useEffect(()=> {
-        async function fecthdata() {
+        async function panier() {
+
+            if (!user || !user._id) return;
+
             try {
                 const response = await fetch(`http://localhost:5000/panier/${user._id}`)
                 const data = await response.json()
 
-                setliste(data)
+                if (data?.produits) {
+                    console.log("Produits reçus du backend :", data.produits)
+
+                    setliste(data.produits.map(prod=> ({
+                        _id: prod.produit._id,
+                        name: prod.produit.name,
+                        quantite: prod.quantite
+                    })))
+                }
             } catch (error) {
                 console.error('erreur')
             }
-        } fecthdata()
+        }
+        panier()
     }, [user])
+
 
     return (
         <div>
-            <ul>
-                {liste.map((prod)=> (
-                    <li key={prod._id}>
-                        <Productcard produit={prod}/> 
-                        <button onClick={()=>supprimer(prod._id)}>supprimer du panier</button>
+            <h2>votre panier</h2>
+            {liste.length === 0 ? 
+            (<p>votre panier est vide</p>) :
+            (<ul>
+                {liste.map((item, index) => (
+                    <li key={item._id || index}>
+                        <Productcard produit={item}/>
+                        <button onClick={()=>supprimer(item._id)}>supprimer</button>
                     </li>
                 ))}
-            </ul>
+            </ul>)}
         </div>
     )
+
 }
+
