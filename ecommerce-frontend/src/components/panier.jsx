@@ -23,7 +23,8 @@ export const Panier = () => {
 
                     setliste(data.produits.map(prod=> ({
                         _id: prod.produit._id,
-                        name: prod.produit.name,
+                        titre: prod.produit.titre,
+                        description: prod.produit.description,
                         quantite: prod.quantite
                     })))
                 }

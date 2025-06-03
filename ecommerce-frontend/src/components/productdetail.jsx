@@ -15,7 +15,7 @@ export default function Productdetail() {
     useEffect(() => {
         async function fetchProduct() {
         try {
-            const res = await fetch(`http://localhost:3000/api/product/${id}`);
+            const res = await fetch(`http://localhost:5000/products/${id}`);
             const data = await res.json();
             setprod(data);
         } catch (error) {
@@ -38,7 +38,7 @@ export default function Productdetail() {
                 <h1>{prod.title}</h1>
                 <p>{prod.description}</p>
                 <p>{prod.note}</p>
-                <Commentlist productId={prod._id} />
+                <Commentlist/>
                 <Commentaireform/>
             </>
         )}

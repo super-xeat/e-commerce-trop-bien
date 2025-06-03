@@ -2,8 +2,8 @@
 
 import {useCard} from "../context/cartcontext"
 import { useAuth } from "../context/authcontext"
+import { Link } from "react-router-dom"
 
-// aucun lien avec productdetail
 export default function Productcard({produit}) {
 
     const {ajouter} = useCard()
@@ -15,6 +15,9 @@ export default function Productcard({produit}) {
             <h1>{produit.description}</h1>
             <h2>{produit.price}</h2>
             <h2>{produit.categorie}</h2>
+            <Link to={`/product/${produit._id}`}>
+                <button>voir les détails</button>
+            </Link>
             <button onClick={()=>ajouter(produit)} disabled={loading || !user}>ajouter au panier</button>
         </div>
     )

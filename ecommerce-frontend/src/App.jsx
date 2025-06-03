@@ -6,6 +6,7 @@ import { CartProvider } from './context/cartcontext';
 import Login from './pages/login';
 import Productlist from './components/productlist';
 import Productform from './components/productform';
+import Productdetail from './components/productdetail';
 import Navbar from './components/navbar';
 import Register from './pages/register';
 import {Panier} from './components/panier';
@@ -23,6 +24,7 @@ export default function App() {
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/panier' element={<Panier/>}/>
+            <Route path='/product/:id' element={<Productdetail/>}/>
           </Routes>
         </BrowserRouter>
       </CartProvider>

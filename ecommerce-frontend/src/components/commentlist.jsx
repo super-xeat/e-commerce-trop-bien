@@ -1,15 +1,15 @@
 
 
 
-import {useCard} from "../context/cartcontext";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Commentitem from "./commetitem";
 
 
 export default function Commentlist() {
 
-    const {comments, setcomments} = useCard()
+    const [comments, setcomments] = useState([])
     const {id} = useParams()
 
     useEffect(()=> {
@@ -22,8 +22,8 @@ export default function Commentlist() {
         <div>
             <ul>
                 {comments.map((com)=> (
-                    <li key={com.id}>
-                        {com.name}
+                    <li key={com._id}>
+                        <Commentitem comment={com}/>
                     </li>
                 ))}
             </ul>

@@ -51,8 +51,19 @@ export const CartProvider = ({ children }) => {
     }
 
 
-    function supprimer(id) {
-        setliste(liste.filter(item => item._id !== id))
+    function supprimer(productid) {
+        
+        fetch(`http://localhost:5000/panier/${user._id}/${productid}`, {
+            method: 'DELETE',
+        })  .then(res => res.json())
+            .then(data => {
+            setliste(data.produits.map(item => ({
+                _id: item.produit._id,
+                titre: item.produit.titre,
+                description: item.produit.description,
+                quantite: item.quantite
+        })))
+        })
     }
 
     function ajoutercom(newcom) {

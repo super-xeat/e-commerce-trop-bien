@@ -40,4 +40,17 @@ route.put('/update', async(req, res)=> {
 })
 
 
+route.delete('/:id/:productid', async (req, res)=> {
+    const {id, productid} = req.params
+    
+    try {
+        const supp = await Panier.findOneAndUpdate({user: id}, { $pull: {produits: {produit: productid}}})
+        .populate('produits.produit')
+        res.json(supp)
+    } catch (error) {
+        res.status(400).json({message: 'erreur'})
+    }
+})
+
+
 module.exports = route
