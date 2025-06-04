@@ -10,6 +10,7 @@ import Productdetail from './components/productdetail';
 import Navbar from './components/navbar';
 import Register from './pages/register';
 import {Panier} from './components/panier';
+import { Conversation } from './components/messagelist';
 
 export default function App() {
 
@@ -24,6 +25,7 @@ export default function App() {
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/panier' element={<Panier/>}/>
+            <Route path='/message' element={<Conversation/>}/>
             <Route path='/product/:id' element={<Productdetail/>}/>
           </Routes>
         </BrowserRouter>
