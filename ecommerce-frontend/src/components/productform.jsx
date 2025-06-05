@@ -10,20 +10,24 @@ export default function Productform() {
     const [description, setdescription] = useState('')
     const [categorie, setcategorie] = useState('')
     const [price, setprice] = useState('')
-    const {authentificated} = useAuth()
+    const {authentificated, user} = useAuth()
     
 
     async function handlesubmit(e) {
         e.preventDefault()
+
+        console.log("User dans Productform :", user)
+        console.log("User ID :", user?._id)
+
         try {
             const response = await fetch('http://localhost:5000/products',
                 {method: 'POST',
                 headers: {
                     'Content-type': 'application/json'
                 },
-                body: JSON.stringify({titre, description, categorie, price: Number(price)})
+                body: JSON.stringify({user: user._id, titre, description, categorie, price: Number(price)})
                 }
-            )
+            ) 
 
             const data = await response.json()
             settitre('')

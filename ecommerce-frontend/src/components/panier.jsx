@@ -1,12 +1,12 @@
 
-import { useCard } from "../context/cartcontext"
+import { useCart } from "../context/cartcontext"
 import { useEffect } from "react"
 import { useAuth } from "../context/authcontext"
 import Productcard from "./productcard"
 
 export const Panier = () => {
 
-    const {liste, setliste, supprimer} = useCard()
+    const {liste, setliste, supprimer} = useCart()
     const {user} = useAuth()
 
     useEffect(()=> {

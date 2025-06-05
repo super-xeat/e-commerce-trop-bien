@@ -38,12 +38,14 @@ export default function Profil() {
 
     return (
         <div>
-            {!authentificated ? <p>vous devez vous connecté ou vous inscrire</p> :
+            {!authentificated ? (<p>vous devez vous connecté ou vous inscrire</p>) :
+            (
+            
             <form onSubmit={handlesubmit}>
                 <input onChange={(e)=>setname(e.target.value)} type="text" value={name}/>
                 <input onChange={(e)=>setmail(e.target.value)} type="text" value={email}/>
                 <button type="submit">modifier</button>
-            </form>
+            </form>)
             }
         </div>
     )

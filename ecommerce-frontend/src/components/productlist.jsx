@@ -3,13 +3,13 @@
 
 import { useEffect } from "react";
 import Productcard from "./productcard";
-import {useCard} from "../context/cartcontext";
+import {useCart} from "../context/cartcontext";
 
 
 
 export default function Productlist() {
 
-    const {listeProduits, setListeProduits} = useCard()
+    const {listeProduits, setListeProduits} = useCart()
 
 
     useEffect(()=> {

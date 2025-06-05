@@ -8,7 +8,7 @@ const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
 
     const [authentificated, setauthentificated] = useState(false)
-    const [user, setuser] = useState('')
+    const [user, setuser] = useState(null)
     const [token, settoken] = useState('')
 
     const [loading, setloading] = useState(true)
@@ -24,6 +24,7 @@ export const AuthProvider = ({ children }) => {
             })
 
             const data = await response.json()
+            console.log("Données reçues après login :", data);
 
             if (!response.ok) {
                 console.error('erreur')
@@ -38,7 +39,7 @@ export const AuthProvider = ({ children }) => {
             console.error('erreur')
         } finally {
             setloading(false)
-        }
+        } 
     }
 
 

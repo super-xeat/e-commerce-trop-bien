@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useAuth } from "../context/authcontext";
-import {useCard} from "../context/cartcontext";
+import {useCart} from "../context/cartcontext";
 import { useParams } from "react-router-dom";
 
 
@@ -10,7 +10,7 @@ export default function Commentaireform() {
     const [autor, setautor] = useState('')
     const [texte, settexte] = useState('')
     const {authentificated} = useAuth()
-    const {ajoutercom, setcomments} = useCard()
+    const {ajoutercom, setcomments} = useCart()
     const {id} = useParams()
 
     // faire un appel fetch pour envoyer le com

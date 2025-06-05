@@ -11,6 +11,7 @@ import Navbar from './components/navbar';
 import Register from './pages/register';
 import {Panier} from './components/panier';
 import { Conversation } from './components/messagelist';
+import Profil from './pages/profil';
 
 export default function App() {
 
@@ -27,6 +28,7 @@ export default function App() {
             <Route path='/panier' element={<Panier/>}/>
             <Route path='/message' element={<Conversation/>}/>
             <Route path='/product/:id' element={<Productdetail/>}/>
+            <Route path='/profil' element={<Profil/>}/>
           </Routes>
         </BrowserRouter>
       </CartProvider>

@@ -1,16 +1,18 @@
 
 
-import {useCard} from "../context/cartcontext"
+import {useCart} from "../context/cartcontext"
 import { useAuth } from "../context/authcontext"
 import { Link } from "react-router-dom"
 
 export default function Productcard({produit}) {
 
-    const {ajouter} = useCard()
+    const {ajouter} = useCart()
     const {loading, user} = useAuth()
 
     return (
         <div>
+            <h1>posté par : {produit.user?.name || "anonyme"}</h1>
+
             <h1>{produit.titre}</h1>
             <h1>{produit.description}</h1>
             <h2>{produit.price}</h2>
