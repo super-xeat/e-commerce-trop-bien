@@ -1,32 +1,31 @@
 
 
 import { useState } from "react";
-import { useAuth } from "../context/authcontext";
-import { useParams } from "react-router-dom";
 
 
-
-export const Formulaire = ({onnewmsg}) => {
+export const Formulaire = ({user1id, user2id, onnewmsg}) => {
 
     const [liste, setliste] = useState('')
-    const {userid} = useParams()
-    const {user} = useAuth()
+
+
 
     async function handlesubmit(e) {
         e.preventDefault()
 
-        if (liste.length !== 0) {
+        if (liste.trim().length > 0) {
 
             try {
-            const response = await fetch(`http://localhost:5000/message/${user._id}/${userid}`, {
+            const response = await fetch(`http://localhost:5000/message`, {
                 method: 'POST',
                 headers: {'Content-type': 'application/json'},
-                body: JSON.stringify({text: liste})
+                body: JSON.stringify({user1: user1id,
+                user2: user2id, text: liste.trim()})
             })
 
-            await response.json()
+            const data = await response.json()
             setliste('')
-            onnewmsg && onnewmsg(e)
+            onnewmsg && onnewmsg(data)
+
         } catch (error) {
             console.error('erreur')
             }

@@ -18,8 +18,6 @@ export default function Productlist() {
         .then(data => setListeProduits(data))
     }, [])
 
-
-
     return (
         <div>
             

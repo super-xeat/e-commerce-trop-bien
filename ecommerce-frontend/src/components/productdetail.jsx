@@ -38,6 +38,7 @@ export default function Productdetail() {
                 <h1>{prod.title}</h1>
                 <p>{prod.description}</p>
                 <p>{prod.note}</p>
+                
                 <Commentlist/>
                 <Commentaireform/>
             </>

@@ -10,8 +10,12 @@ import Productdetail from './components/productdetail';
 import Navbar from './components/navbar';
 import Register from './pages/register';
 import {Panier} from './components/panier';
-import { Conversation } from './components/messagelist';
 import Profil from './pages/profil';
+import { Messagelist } from './components/message';
+import Conversation from './pages/conversation';
+
+
+
 
 export default function App() {
 
@@ -26,9 +30,13 @@ export default function App() {
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/panier' element={<Panier/>}/>
-            <Route path='/message' element={<Conversation/>}/>
             <Route path='/product/:id' element={<Productdetail/>}/>
             <Route path='/profil' element={<Profil/>}/>
+            <Route path="/conversation" element={<Conversation/>} />
+            <Route path="/message/:user1id/:user2id" element={<Messagelist/>} />
+
+
+
           </Routes>
         </BrowserRouter>
       </CartProvider>

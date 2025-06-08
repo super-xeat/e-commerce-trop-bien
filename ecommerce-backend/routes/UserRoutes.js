@@ -7,6 +7,16 @@ const User = require('../models/user')
 
 
 
+route.get('/', async(req, res)=> {
+    try {
+        const users = User.find()
+        res.json(users)
+    } catch (error) {
+        res.status(400).json({message: 'erreur'})
+    }
+})
+
+
 route.delete('/:id', async(req, res)=> {
     const {id} = req.params
     try {

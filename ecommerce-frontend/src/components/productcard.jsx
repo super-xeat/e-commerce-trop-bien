@@ -20,6 +20,13 @@ export default function Productcard({produit}) {
             <Link to={`/product/${produit._id}`}>
                 <button>voir les détails</button>
             </Link>
+
+            {user && produit.user && produit.user._id && user._id !== produit.user._id && (
+            <Link to={`/message/${user._id}/${produit.user._id}`}>
+                <button>Contacter le créateur</button>
+            </Link>
+            )}
+
             <button onClick={()=>ajouter(produit)} disabled={loading || !user}>ajouter au panier</button>
         </div>
     )
