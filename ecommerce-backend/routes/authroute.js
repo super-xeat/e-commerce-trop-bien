@@ -25,7 +25,7 @@ route.post('/login', async (req, res)=> {
         }
 
         const token = jwt.sign(
-            { userId: existuser._id },
+            { userId: existuser._id, role: existuser.role,  },
             'cle_secrete',
             {expiresIn: '2h'})
 

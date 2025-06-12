@@ -30,13 +30,12 @@ export default function App() {
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/panier' element={<Panier/>}/>
+
+            <Route path='/panier/:id' element={<Panier/>}/>
             <Route path='/product/:id' element={<Productdetail/>}/>
             <Route path='/profil' element={<Profil/>}/>
-            <Route path="/conversation" element={<Conversation/>} />
+            <Route path="/message/:userid" element={<Conversation/>} />
             <Route path="/message/:user1id/:user2id" element={<Messagelist/>} />
-
-
-
           </Routes>
         </BrowserRouter>
       </CartProvider>

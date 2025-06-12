@@ -6,7 +6,7 @@ import { useAuth } from "../context/authcontext";
 
 export default function Navbar() {
 
-    const {authentificated, logout} = useAuth()
+    const {authentificated, logout, user} = useAuth()
 
     return (
         <div>
@@ -16,9 +16,10 @@ export default function Navbar() {
                 {!authentificated && <Link to="/register">register</Link>}
                 {authentificated && <Link to="/ajoutproduit">mettre un produit</Link>}
                 {authentificated && <button onClick={logout}>deconnexion</button>}
-                {authentificated && <Link to="/conversation">message</Link>}
+                {authentificated && user && <Link to={`/message/${user._id}`}>message</Link>}
                 {authentificated && <Link to="/profil">profil</Link>}
-                <Link to="/panier">panier</Link>
+                <Link to={user ? `/panier/${user._id}` : "/panier"}>panier</Link>
+
             </nav>
         </div>
     )

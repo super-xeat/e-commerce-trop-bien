@@ -6,12 +6,21 @@ const Panier = require('../models/panier')
 
 
 
+
 route.get('/:id', async(req, res)=> {
     const {id} = req.params
+    console.log("ID reçu pour le panier :", id);
+
     try {
         const panier = await Panier.findOne({user: id}).populate('produits.produit')
+        if (!panier) {
+            return res.status(404).json({ message: 'Panier introuvable' });
+        }
+
+        console.log("✅ Panier trouvé :", panier);
         res.json(panier)
     } catch (error) {
+        console.error("💥 ERREUR DANS LA ROUTE GET PANIER :", error);
         res.status(400).json({message: 'erreur de panier'})
     }
 })

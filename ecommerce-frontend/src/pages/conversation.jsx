@@ -1,57 +1,50 @@
 
 
-import { useState, useEffect } from "react";
-import {Link} from "react-router-dom"
-import { useAuth } from "../context/authcontext";
-
+import { useParams, Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 
 export default function Conversation() {
-
-    const [conversation, setconversation] = useState([])
-    const {user} = useAuth()
-
-
-    useEffect(() => {
-    if (!user || !user._id) return;
-
-    fetch(`http://localhost:5000/message/${user._id}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log("Réponse serveur :", data);
-        if (!Array.isArray(data)) {
-          console.error("Erreur : la réponse attendue est un tableau mais a reçu :", data);
-          return;
-        }
-        const seen = new Set();
-        const uniqueUsers = [];
-
-        data.forEach((msg) => {
-          const other =
-            msg.user1._id === user._id ? msg.user2 : msg.user1;
-          if (!seen.has(other._id)) {
-            seen.add(other._id);
-            uniqueUsers.push(other);
-          }
-        });
-
-        setconversation(uniqueUsers);
-      });
-  }, [user]);
+  const { userid } = useParams()
+  const [users, setUsers] = useState([])
+  const [loading, setloading] = useState(true)
 
 
-    return(
-        <div>
-            <h1>liste des conversation :</h1>
-            <ul>
-                {conversation.map(user2 => (
-                    <li key={user2._id}>
-                        <Link to={`/message/${user._id}/${user2._id}`}>Voir messages</Link>
-                    </li>
-                ))}
-            </ul>
+  useEffect(() => {
+    
+    async function fetchData() {
+      try {
+      const res = await fetch(`http://localhost:5000/message/${userid}`)
+      const data = await res.json()
+      console.log('Réponse serveur :', data)
+      setUsers(data)
+    } catch (error) {
+      console.error('erreur de recuperation')
+    } finally {
+      setloading(false)
+    }
+  }
+  fetchData()
+  }, [userid])
 
-            
-        </div>
-    )
+  if (loading) return <p>chargement...</p>
+
+  return (
+    <div>
+      <h1>Conversations de l'utilisateur</h1>
+      {users.length === 0 ? (
+        <p>Aucune conversation trouvée.</p>
+      ) : (
+        <ul>
+          {users.map((user, index) => (
+            <li key={index}>
+              <Link to={`/message/${user._id}/${userid}`}>
+                <p><strong>Nom:</strong> {user.name}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
 }

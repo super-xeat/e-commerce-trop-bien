@@ -9,10 +9,12 @@ export const Panier = () => {
     const {liste, setliste, supprimer} = useCart()
     const {user} = useAuth()
 
+
     useEffect(()=> {
         async function panier() {
-
-            if (!user || !user._id) return;
+            console.log("🧠 Utilisateur courant dans Panier.jsx:", user?._id);
+            if (!user || !user._id) {
+                return <p>vous devez vous connecté</p>}
 
             try {
                 const response = await fetch(`http://localhost:5000/panier/${user._id}`)
@@ -38,17 +40,22 @@ export const Panier = () => {
 
     return (
         <div>
-            <h2>votre panier</h2>
-            {liste.length === 0 ? 
-            (<p>votre panier est vide</p>) :
-            (<ul>
-                {liste.map((item, index) => (
-                    <li key={item._id || index}>
-                        <Productcard produit={item}/>
-                        <button onClick={()=>supprimer(item._id)}>supprimer</button>
-                    </li>
-                ))}
-            </ul>)}
+            {!user ? (<p>veuillez vous connectez</p>) : 
+            ( 
+            <>
+                <h2>votre panier</h2>
+                {liste.length === 0 ? 
+                (<p>votre panier est vide</p>) :
+                (<ul>
+                    {liste.map((item, index) => (
+                        <li key={item._id || index}>
+                            <Productcard produit={item}/>
+                            <button onClick={()=>supprimer(item._id)}>supprimer</button>
+                        </li>
+                    ))}
+                </ul>)}
+            </>
+            )}
         </div>
     )
 

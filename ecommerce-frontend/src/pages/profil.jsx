@@ -38,6 +38,8 @@ export default function Profil() {
 
     return (
         <div>
+            <h1>bonjours {user.name}</h1>
+            <h3>voulez vous modifier votre identifiant ou votre mail ?</h3>
             {!authentificated ? (<p>vous devez vous connecté ou vous inscrire</p>) :
             (
             

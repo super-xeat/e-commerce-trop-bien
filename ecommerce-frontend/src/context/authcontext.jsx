@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
             setuser(data.user)
             settoken(data.token)
             setauthentificated(true)
+            return data.user
             
         } catch (error) {
             console.error('erreur')
@@ -63,6 +64,8 @@ export const AuthProvider = ({ children }) => {
         setauthentificated(true)
         setuser(data.user);
         settoken(data.token);
+
+        
         
         } catch (error) {
             console.error('erreur')
@@ -80,7 +83,7 @@ export const AuthProvider = ({ children }) => {
     
 
     return (
-        <AuthContext.Provider value={{ user, token, authentificated, login, logout, register, loading}}>
+        <AuthContext.Provider value={{ user, token, setauthentificated, authentificated, login, logout, register, loading}}>
             {children}
         </AuthContext.Provider>
     )

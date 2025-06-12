@@ -4,7 +4,8 @@ const express = require('express')
 const route = express.Router()
 const Products = require('../models/produit')
 const { default: mongoose } = require('mongoose')
-
+const user = require('../models/user')
+const {verifytoken, isadmin} = require('../middleware/verifytoken')
 
 
 route.get('/', async (req, res)=> {
@@ -29,6 +30,7 @@ route.get('/:id', async (req, res)=> {
     }
 })
 
+
 route.post('/', async(req, res)=> {
     console.log("Body reçu :", req.body);
     const {user, titre, description, price, categorie} = req.body
@@ -48,8 +50,9 @@ route.post('/', async(req, res)=> {
 })
 
 
-route.delete('/:id', async (req, res)=> {
+route.delete('/:id', verifytoken, isadmin, async (req, res)=> {
     const {id} = req.params
+    
     try {
         const produit = await Products.findByIdAndDelete(id)
         if (!produit) {
@@ -60,5 +63,6 @@ route.delete('/:id', async (req, res)=> {
         res.status(400).json({messsage: 'erreur'})
     }
 })
+
 
 module.exports = route

@@ -4,13 +4,13 @@
 import { useEffect } from "react";
 import Productcard from "./productcard";
 import {useCart} from "../context/cartcontext";
-
+import { useAuth } from "../context/authcontext";
 
 
 export default function Productlist() {
 
-    const {listeProduits, setListeProduits} = useCart()
-
+    const {listeProduits, setListeProduits, supprimerAdmin} = useCart()
+    const {user} = useAuth()
 
     useEffect(()=> {
         fetch('http://localhost:5000/products')
@@ -25,7 +25,7 @@ export default function Productlist() {
                 {listeProduits.map((prod)=> (
                     <li key={prod._id}>
                         <Productcard produit={prod}/>
-                        <button onClick={()=> supprimer(prod._id)}>supprimer</button>
+                        {user.role === 'admin' && <button onClick={()=> supprimerAdmin(prod)}>supprimer</button>}
                     </li>
                 ))}
             </ul>          
