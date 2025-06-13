@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Commentlist from "./commentlist";
 import Commentaireform from "./commentform";
+import { useAuth } from "../context/authcontext";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function Productdetail() {
@@ -10,8 +13,40 @@ export default function Productdetail() {
     const [prod, setprod] = useState(null)
     const [loading, setloading] = useState(true)
     const {id}  = useParams()
+    const {user, token} = useAuth()
+    const navigate = useNavigate()
+    
+    
 
+    function supprimerAdmin(id) {
+    console.log("ID du produit à supprimer :", id);
+    console.log("Token :", token);
 
+    if (!user || user.role !== 'admin') {
+        console.warn("Action interdite : seuls les admins peuvent supprimer.");
+        return;
+    }
+
+    fetch(`http://localhost:5000/products/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(async res => {
+        if (res.ok) {
+            alert('Produit supprimé');
+            navigate('/');
+        } else {
+            const errorData = await res.json();
+            console.error("Erreur serveur", res.status, errorData);
+            alert(`Erreur ${res.status} : ${errorData.message || 'Erreur inconnue'}`);
+        }
+    })
+    .catch(err => console.error("Une erreur s'est produite", err));
+}
+
+    
     useEffect(() => {
         async function fetchProduct() {
         try {
@@ -35,10 +70,11 @@ export default function Productdetail() {
         <div>
             {prod && (
             <>
-                <h1>{prod.title}</h1>
+                <h1>{prod.titre}</h1>
                 <p>{prod.description}</p>
                 <p>{prod.note}</p>
-                
+                {user && user.role === 'admin' && <button onClick={()=>supprimerAdmin(prod._id)}>supprimer</button>}
+
                 <Commentlist/>
                 <Commentaireform/>
             </>

@@ -66,31 +66,13 @@ export const CartProvider = ({ children }) => {
         })
     }
 
-    function supprimerAdmin(product) {
-
-        if (!user || user.role !== 'admin') {
-            console.warn("action interdite : seul les admin peuvent les utiliser")
-            return
-        }
-
-        fetch(`http://localhost:5000/products/${product._id}`, {
-            method: 'DELETE'
-        })
-        .then(res => {
-            if (res.ok) {
-                setListeProduits(listeProduits.filter(item => item._id !== product._id))
-            }
-        })
-        
-        .catch(err => console.error("une erreur sest produite", err))
-    }
-
+    
     function ajoutercom(newcom) {
         setcomments([...comments, newcom])
     }
 
     return(
-        <Cartcontext.Provider value={{ajouter, supprimer, ajoutercom, comments, liste, setliste, listeProduits, setListeProduits, supprimerAdmin}}>
+        <Cartcontext.Provider value={{ajouter, supprimer, ajoutercom, comments, liste, setliste, listeProduits, setListeProduits}}>
             {children}
         </Cartcontext.Provider>
     )

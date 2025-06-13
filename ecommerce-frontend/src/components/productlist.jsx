@@ -1,16 +1,16 @@
 
 
 
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Productcard from "./productcard";
 import {useCart} from "../context/cartcontext";
-import { useAuth } from "../context/authcontext";
+import Recherche from "./recherche";
 
 
 export default function Productlist() {
 
-    const {listeProduits, setListeProduits, supprimerAdmin} = useCart()
-    const {user} = useAuth()
+    const {listeProduits, setListeProduits } = useCart()
+    const [categorie, setcategorie] = useState('')
 
     useEffect(()=> {
         fetch('http://localhost:5000/products')
@@ -18,14 +18,29 @@ export default function Productlist() {
         .then(data => setListeProduits(data))
     }, [])
 
+
+    const filtre = useMemo (()=> {
+        if (!categorie) return listeProduits
+        const filtrage = listeProduits.filter(item => item.categorie === categorie)
+        return filtrage
+    }, [categorie, listeProduits])
+
     return (
         <div>
-            
+            <Recherche/>
+            <select onChange={(e)=>setcategorie(e.target.value)}>
+                <option value="">tout les produits</option>
+                <option value="menage">ménage</option>
+                <option value="salon">salon</option>
+                <option value="jeux">jeux</option>
+                <option value="voiture">voiture</option>
+                <option value="equipement">equipement</option>
+            </select>
             <ul>
-                {listeProduits.map((prod)=> (
+                {filtre.map((prod)=> (
                     <li key={prod._id}>
                         <Productcard produit={prod}/>
-                        {user.role === 'admin' && <button onClick={()=> supprimerAdmin(prod)}>supprimer</button>}
+                        
                     </li>
                 ))}
             </ul>          

@@ -53,6 +53,10 @@ route.post('/', async(req, res)=> {
 route.delete('/:id', verifytoken, isadmin, async (req, res)=> {
     const {id} = req.params
     
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: 'ID invalide' });
+    }
+    
     try {
         const produit = await Products.findByIdAndDelete(id)
         if (!produit) {
@@ -60,7 +64,8 @@ route.delete('/:id', verifytoken, isadmin, async (req, res)=> {
         }
         res.json({message: 'element supprimé', produit})       
     } catch (error) {
-        res.status(400).json({messsage: 'erreur'})
+        console.error(error) 
+        res.status(400).json({message: 'erreur'})
     }
 })
 

@@ -17,7 +17,7 @@ export default function Productcard({produit}) {
             <h1>{produit.description}</h1>
             <h2>{produit.price}</h2>
             <h2>{produit.categorie}</h2>
-            <Link to={`/product/${produit._id}`}>
+            <Link to={`/products/${produit._id}`}>
                 <button>voir les détails</button>
             </Link>
 

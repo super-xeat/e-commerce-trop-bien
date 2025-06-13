@@ -23,10 +23,7 @@ app.use(cors({
 }))
 
 
-mongoose.connect('mongodb://localhost:27017/ecommerce-trop-bien', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+mongoose.connect('mongodb://localhost:27017/ecommerce-trop-bien');
 
 
 app.use('/auth', authroutes);

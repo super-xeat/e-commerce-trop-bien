@@ -15,34 +15,37 @@
 const jwt = require('jsonwebtoken')
 
 
-function middleware(req, res, next) {
+function verifytoken(req, res, next) {
 
     const head = req.headers.authorization
 
     try {
     if (!head || !head.startsWith('Bearer')) {
-        res.status(403).json({message:'erreur token inexistant'})
+        return res.status(403).json({message:'erreur token inexistant'})
     }
 
     const token = head.split(' ')[1]
-    const payload = jwt.verify(token, 'cle-secrete')
-    
+    const payload = jwt.verify(token, 'cle_secrete')
+    console.log('Payload JWT décodé :', payload);
     req.user = payload
 
     next()
     } catch(error) {
-        res.status(400).json({message: 'erreur'})
+        console.error('Erreur dans verifytoken :', error)
+        return res.status(400).json({message: 'erreur'})
     }
 } 
 
 
 function isadmin(req, res, next) {
-
-    if (req.user.role !== 'admin') {
-        return res.status(403).json({message: 'erreur'})
+    console.log(req.user)
+    if (req.user && req.user.role === 'admin') {
+        next()
+    } else {
+        return res.status(403).json({message: 'accés interdit'})
     }
-    next()
+
 }
 
 
-module.exports = {veriftoken : middleware, isadmin}
+module.exports = {verifytoken , isadmin}
