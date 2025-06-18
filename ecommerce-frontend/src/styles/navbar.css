@@ -1,0 +1,29 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(245, 245, 245, 0.967);
+    width: 100%;
+}
+
+nav {
+    
+    display: flex;
+    text-align: end;
+}
+
+nav a {
+    color: orangered;
+    margin-left: 10px;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.search {
+    margin-right: 5%;
+    margin-top: 1%;
+    border-color: black;
+}
+
+
+

@@ -12,7 +12,7 @@ route.get('/:id', async(req, res)=> {
     console.log("ID reçu pour le panier :", id);
 
     try {
-        const panier = await Panier.findOne({user: id}).populate('produits.produit')
+        const panier = await Panier.findOne({user: id}).populate({path: 'produits.produit', populate: {path: 'user', select: 'name'}})
         if (!panier) {
             return res.status(404).json({ message: 'Panier introuvable' });
         }

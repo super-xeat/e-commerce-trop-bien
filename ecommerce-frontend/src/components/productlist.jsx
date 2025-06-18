@@ -4,12 +4,13 @@
 import { useEffect, useMemo, useState } from "react";
 import Productcard from "./productcard";
 import {useCart} from "../context/cartcontext";
-import Recherche from "./recherche";
+import '../styles/productlist.css';
+
 
 
 export default function Productlist() {
 
-    const {listeProduits, setListeProduits } = useCart()
+    const {listeProduits, setListeProduits, search, filtre_search } = useCart()
     const [categorie, setcategorie] = useState('')
 
     useEffect(()=> {
@@ -26,8 +27,19 @@ export default function Productlist() {
     }, [categorie, listeProduits])
 
     return (
-        <div>
-            <Recherche/>
+        <div className="liste">
+            {search && (
+                <ul className="result">
+                    {filtre_search.map(item => (
+                        <div>
+                            <h1>résultat de votre recherche : </h1>
+                            <li key={item._id || item.titre}>
+                                <Productcard produit={item}/>
+                            </li>
+                        </div>
+
+                    ))}
+                </ul>)}
             <select onChange={(e)=>setcategorie(e.target.value)}>
                 <option value="">tout les produits</option>
                 <option value="menage">ménage</option>

@@ -6,6 +6,7 @@ const Products = require('../models/produit')
 const { default: mongoose } = require('mongoose')
 const user = require('../models/user')
 const {verifytoken, isadmin} = require('../middleware/verifytoken')
+const uploads = require('../middleware/upload')
 
 
 route.get('/', async (req, res)=> {
@@ -31,16 +32,21 @@ route.get('/:id', async (req, res)=> {
 })
 
 
-route.post('/', async(req, res)=> {
-    console.log("Body reçu :", req.body);
+route.post('/', uploads.array('images', 5),async(req, res)=> {
+
     const {user, titre, description, price, categorie} = req.body
-    console.log("ID utilisateur reçu :", user)
+    let images = []
+    if (Array.isArray(req.files)) {
+        images = req.files.map(file => file.filename)
+    } else if (req.file) {
+        images = [req.file.filename]
+    }
+
     try {
-        const newproduct = new Products({user, titre, description, price, categorie})
+        const newproduct = new Products({user, titre, description, price, categorie, images})
         const saved = await newproduct.save()
         const populated = await Products.findById(saved._id).populate('user', 'name');
-
-        console.log("Produit enregistré et peuplé :", populated.user)        
+     
 
         res.json(populated)
     } catch (error) {

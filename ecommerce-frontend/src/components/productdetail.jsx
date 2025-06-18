@@ -73,9 +73,20 @@ export default function Productdetail() {
                 <h1>{prod.titre}</h1>
                 <p>{prod.description}</p>
                 <p>{prod.note}</p>
+                {Array.isArray(prod.images) ? (
+                    prod.images.map((item, index)=> (
+                        <img key={index} src={`http://localhost:5000/uploads/${item}`} style={{ width:'100px', height: 'auto'}}/>))) : 
+                        prod.images ? (<img src={`http://localhost:5000/uploads/${prod.images}`} style={{ width:'100px', height: 'auto'}}/>) :
+                        (<p>pas d'image</p>)
+                    
+                }
                 {user && user.role === 'admin' && <button onClick={()=>supprimerAdmin(prod._id)}>supprimer</button>}
-
+                <br />
+                <br />
+                <h2>Liste des commentaires :</h2>
                 <Commentlist/>
+                <br /><br />
+                <h3>Ajouter un commentaire :</h3>
                 <Commentaireform/>
             </>
         )}

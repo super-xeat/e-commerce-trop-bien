@@ -17,10 +17,7 @@ const app = express()
 app.use(express.json())
 
 
-app.use(cors({
-    origin: "http://localhost:5173"
-    
-}))
+app.use(cors())
 
 
 mongoose.connect('mongodb://localhost:27017/ecommerce-trop-bien');
@@ -32,6 +29,7 @@ app.use('/products', productsroutes);
 app.use('/users', userRoute);
 app.use('/panier', panier);
 app.use('/message', message)
+app.use('/uploads', express.static('uploads'))
 
 
 const PORT = 5000

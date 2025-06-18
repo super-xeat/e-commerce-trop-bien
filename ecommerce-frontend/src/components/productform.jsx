@@ -10,22 +10,37 @@ export default function Productform() {
     const [description, setdescription] = useState('')
     const [categorie, setcategorie] = useState('')
     const [price, setprice] = useState('')
+    const [images, setimage] = useState([])
     const {authentificated, user} = useAuth()
     
 
     async function handlesubmit(e) {
         e.preventDefault()
 
-        console.log("User dans Productform :", user)
-        console.log("User ID :", user?._id)
+        const formData = new FormData();
+        formData.append("user", user._id);
+        formData.append("titre", titre);
+        formData.append("description", description);
+        formData.append("categorie", categorie);
+        formData.append("price", price);
+
+        for (let i = 0; i < images.length; i++) {
+            formData.append("image", images[i])
+        }
+        console.log({
+            user: user._id,
+            titre,
+            description,
+            categorie,
+            price,
+            images
+            });
 
         try {
             const response = await fetch('http://localhost:5000/products',
-                {method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify({user: user._id, titre, description, categorie, price: Number(price)})
+                {
+                method: 'POST',
+                body: formData
                 }
             ) 
 
@@ -34,6 +49,7 @@ export default function Productform() {
             setdescription('')
             setcategorie('')
             setprice('')
+            setimage([])
         } catch (error) {
             console.error('erreur de connexion')
         }
@@ -42,11 +58,21 @@ export default function Productform() {
 
     return (
         <div>
+            
             {!authentificated ? <h1>vous devez vous connecter</h1> : 
+            (
             <form onSubmit={handlesubmit}>
-                <input onChange={(e)=>settitre(e.target.value)} type="text" value={titre}/>
-                <input onChange={(e)=>setdescription(e.target.value)} type="text" value={description}/>
-                <input onChange={(e)=>setprice(e.target.value)} type="text" value={price}/>
+                <h3>nommez votre produit :</h3>
+                <input onChange={(e)=>settitre(e.target.value)} type="text" value={titre} placeholder="mettre un nom"/>
+                <br />
+                <h3>décrire le produit :</h3>
+                <input onChange={(e)=>setdescription(e.target.value)} type="text" value={description} placeholder="décrivez votre produit"/>
+                <br />
+                <h3>Prix de votre produit :</h3>
+                <input onChange={(e)=>setprice(e.target.value)} type="text" value={price} placeholder="prix"/>
+                <br />
+
+                <h3>A quel catégorie classeriez vous votre produit :</h3>
                 <select onChange={(e)=>setcategorie(e.target.value)} value={categorie}>
                     <option value="menage">ménage</option>
                     <option value="salon">salon</option>
@@ -54,8 +80,12 @@ export default function Productform() {
                     <option value="voiture">voiture</option>
                     <option value="equipement">equipement</option>
                 </select>
+                <h3>ajoutez une image (obligatoire)</h3>
+                <input type="file" multiple onChange={(e)=>setimage(e.target.files)}/>
+                <br />
                 <button type="submit">ajouter</button>
-            </form>
+
+            </form>)
             }
         </div>
     )

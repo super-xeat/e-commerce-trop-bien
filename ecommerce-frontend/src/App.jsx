@@ -30,7 +30,7 @@ export default function App() {
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/panier' element={<Panier/>}/>
-
+          
             <Route path='/panier/:id' element={<Panier/>}/>
             <Route path='/products/:id' element={<Productdetail/>}/>
             <Route path='/profil' element={<Profil/>}/>

@@ -12,7 +12,8 @@ export const CartProvider = ({ children }) => {
     const [comments, setcomments] = useState([])
     const [listeProduits, setListeProduits] = useState([])
     const {user} = useAuth()
-    console.log("User from AuthContext:", user)
+    const [search, setsearch] = useState('')
+
 
     function ajouter(newprod) {
         const prodexist = liste.find(item => item._id === newprod._id)
@@ -71,8 +72,14 @@ export const CartProvider = ({ children }) => {
         setcomments([...comments, newcom])
     }
 
+
+    const list = Array.from(listeProduits)
+    const filtre_search = list.filter(item => item.titre === search)
+        
+    
+
     return(
-        <Cartcontext.Provider value={{ajouter, supprimer, ajoutercom, comments, liste, setliste, listeProduits, setListeProduits}}>
+        <Cartcontext.Provider value={{ajouter, supprimer, ajoutercom, comments, liste, setliste, listeProduits, setListeProduits, search, filtre_search, setsearch}}>
             {children}
         </Cartcontext.Provider>
     )

@@ -4,9 +4,10 @@ import { useEffect } from "react"
 import { useAuth } from "../context/authcontext"
 import Productcard from "./productcard"
 
+
 export const Panier = () => {
 
-    const {liste, setliste, supprimer} = useCart()
+    const {liste, setliste, supprimer, ajouter} = useCart()
     const {user} = useAuth()
 
 
@@ -27,7 +28,9 @@ export const Panier = () => {
                         _id: prod.produit._id,
                         titre: prod.produit.titre,
                         description: prod.produit.description,
-                        quantite: prod.quantite
+                        quantite: prod.quantite,
+                        images: prod.produit.images,
+                        user: prod.produit.user
                     })))
                 }
             } catch (error) {
@@ -50,6 +53,7 @@ export const Panier = () => {
                     {liste.map((item, index) => (
                         <li key={item._id || index}>
                             <Productcard produit={item}/>
+                            <p>quantité actuelle: {item.quantite}<button onClick={()=>ajouter(item)}>+</button></p>
                             <button onClick={()=>supprimer(item._id)}>supprimer</button>
                         </li>
                     ))}
