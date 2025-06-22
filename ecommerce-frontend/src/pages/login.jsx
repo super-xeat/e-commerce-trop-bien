@@ -16,7 +16,7 @@ export default function Login() {
         e.preventDefault()
         const user = await login(email, password)
         if (user && user._id) {
-            navigate(`/message/${user._id}`)
+            navigate(`/profil`)
         }
     }
     

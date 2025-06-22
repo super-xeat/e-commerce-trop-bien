@@ -13,6 +13,7 @@ export const CartProvider = ({ children }) => {
     const [listeProduits, setListeProduits] = useState([])
     const {user} = useAuth()
     const [search, setsearch] = useState('')
+    const [champ, setchamp] = useState(false)
 
 
     function ajouter(newprod) {
@@ -79,7 +80,21 @@ export const CartProvider = ({ children }) => {
     
 
     return(
-        <Cartcontext.Provider value={{ajouter, supprimer, ajoutercom, comments, liste, setliste, listeProduits, setListeProduits, search, filtre_search, setsearch}}>
+        <Cartcontext.Provider value={{
+            ajouter, 
+            supprimer, 
+            ajoutercom, 
+            comments, 
+            liste, 
+            setliste, 
+            listeProduits, 
+            setListeProduits, 
+            search, 
+            filtre_search, 
+            setsearch,
+            champ,
+            setchamp
+            }}>
             {children}
         </Cartcontext.Provider>
     )

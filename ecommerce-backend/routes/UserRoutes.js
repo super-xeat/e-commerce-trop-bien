@@ -4,7 +4,7 @@
 const express = require('express')
 const route = express.Router()
 const User = require('../models/user')
-
+const upload = require('../middleware/upload')
 
 
 route.get('/', async(req, res)=> {
@@ -52,6 +52,22 @@ route.put('/:id', async(req, res)=> {
         res.json({message: 'profil mis a jour', user:user})
     } catch (error) {
         res.status(500).json({message: 'erreur de mise a jour'})
+    }
+})
+
+
+route.put('/image/:id', upload.single('image'), async(req, res)=> {
+    const {id} = req.params
+    
+    try {
+        const user = await User.findByIdAndUpdate(id, 
+            {image: req.file.path},
+            {new: true}
+        )
+        const saved = await user.save()
+        res.status(200).json({message: 'cest bon', saved})
+    } catch (error) {
+        return res.status(400).json({message: 'erreur'})
     }
 })
 

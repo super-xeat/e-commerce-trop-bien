@@ -1,6 +1,5 @@
 
 
-
 import { useEffect, useMemo, useState } from "react";
 import Productcard from "./productcard";
 import {useCart} from "../context/cartcontext";
@@ -10,8 +9,16 @@ import '../styles/productlist.css';
 
 export default function Productlist() {
 
-    const {listeProduits, setListeProduits, search, filtre_search } = useCart()
+    const {
+        listeProduits, 
+        setListeProduits, 
+        search, 
+        filtre_search,
+        champ,
+        setchamp
+    } = useCart()
     const [categorie, setcategorie] = useState('')
+
 
     useEffect(()=> {
         fetch('http://localhost:5000/products')
@@ -21,13 +28,13 @@ export default function Productlist() {
 
 
     const filtre = useMemo (()=> {
-        if (!categorie) return listeProduits
+        if (categorie  === "tous les produits" || !categorie ) return listeProduits
         const filtrage = listeProduits.filter(item => item.categorie === categorie)
         return filtrage
     }, [categorie, listeProduits])
 
     return (
-        <div className="liste">
+        <div className={champ ? 'dark-mode': 'liste'}>
             {search && (
                 <ul className="result">
                     {filtre_search.map(item => (
@@ -40,22 +47,22 @@ export default function Productlist() {
 
                     ))}
                 </ul>)}
-            <select onChange={(e)=>setcategorie(e.target.value)}>
-                <option value="">tout les produits</option>
-                <option value="menage">ménage</option>
-                <option value="salon">salon</option>
-                <option value="jeux">jeux</option>
-                <option value="voiture">voiture</option>
-                <option value="equipement">equipement</option>
-            </select>
-            <ul>
+            <ul className="categorie">
+                <li onClick={()=>setcategorie("ménage")}>ménage</li>
+                <li onClick={()=>setcategorie("salon")}>salon</li>
+                <li onClick={()=>setcategorie("jeux")}>jeux</li>
+                <li onClick={()=>setcategorie("voiture")}>voiture</li>
+                <li onClick={()=>setcategorie("équipement")}>équipement</li>
+                <li onClick={()=>setcategorie("tous les produits")}>Tous les produits</li>
+            </ul>
+            <div className="grille">
                 {filtre.map((prod)=> (
                     <li key={prod._id}>
                         <Productcard produit={prod}/>
                         
                     </li>
                 ))}
-            </ul>          
+            </div>          
         </div>
     )
 }

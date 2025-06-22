@@ -12,6 +12,30 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.liste {
-  width: 50%;
+.liste ul{
+  width: 100%;
 }
+
+
+.categorie {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+  background-color: aliceblue;
+}
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+
+}
+
+.grille li {
+  text-decoration: none;
+}
+
+.dark-mode {
+    background-color: black;
+}
+

@@ -1,0 +1,14 @@
+
+
+
+.productcard {
+    background-color: bisque;
+    width: 35%;
+    margin-left: 20%;
+    border-radius: 20px;
+}
+
+.image {
+    display: flex;
+    justify-content: center;
+}

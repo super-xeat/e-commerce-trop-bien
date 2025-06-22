@@ -47,6 +47,8 @@ export const AuthProvider = ({ children }) => {
     async function register({name, email, password}) {
         try {
         setloading(true)
+        console.log("Données envoyées à l'API :", { name, email, password });
+
         const response = await fetch('http://localhost:5000/auth/register', {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
@@ -60,13 +62,11 @@ export const AuthProvider = ({ children }) => {
             return;
           }
       
-        console.log('vous etes connecté')
+        
         setauthentificated(true)
         setuser(data.user);
-        settoken(data.token);
 
-        
-        
+               
         } catch (error) {
             console.error('erreur')
         } finally {
