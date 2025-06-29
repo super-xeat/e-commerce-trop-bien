@@ -14,7 +14,7 @@ export default function Productform() {
     const {authentificated, user} = useAuth()
     
 
-    async function handlesubmit(e) {
+    async function handlesubmit(e) { 
         e.preventDefault()
 
         const formData = new FormData();
@@ -25,7 +25,7 @@ export default function Productform() {
         formData.append("price", price);
 
         for (let i = 0; i < images.length; i++) {
-            formData.append("image", images[i])
+            formData.append("images", images[i])
         }
         console.log({
             user: user._id,
@@ -61,7 +61,7 @@ export default function Productform() {
             
             {!authentificated ? <h1>vous devez vous connecter</h1> : 
             (
-            <form onSubmit={handlesubmit}>
+            <form onSubmit={handlesubmit} encType="multipart/form-data">
                 <h3>nommez votre produit :</h3>
                 <input onChange={(e)=>settitre(e.target.value)} type="text" value={titre} placeholder="mettre un nom"/>
                 <br />
@@ -81,7 +81,7 @@ export default function Productform() {
                     <option value="equipement">equipement</option>
                 </select>
                 <h3>ajoutez une image (obligatoire)</h3>
-                <input type="file" multiple onChange={(e)=>setimage(e.target.files)}/>
+                <input type="file" onChange={(e)=>setimage(e.target.files)} multiple/>
                 <br />
                 <button type="submit">ajouter</button>
 

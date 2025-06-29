@@ -8,7 +8,8 @@ const usershema = new mongoose.Schema({
     password: {type: String, required: true},
     verifycode: {type: String},
     verified: {type: Boolean, default: false},
-    image:{type:String, required:false},
+    image: {type:String, required:false},
+    favorie: [{type:mongoose.Schema.Types.ObjectId, ref: 'Products', required:false}],
     role: {type: String, role : ['admin', 'user'], default: 'user'},
 }, {timestamps: true})
 

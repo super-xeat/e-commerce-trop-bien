@@ -10,23 +10,25 @@ import '../styles/productcard.css'
 
 export default function Productcard({produit}) {
 
-    const {ajouter, liste} = useCart()
+    const {ajouter, liste, AjouterFavorie} = useCart()
     const {loading, user} = useAuth()
 
     const estdanspanier = liste.some(item => item._id === produit._id)
 
+    console.log(produit.user)
     return (
         
         <div className="productcard">
 
-            <h6>posté par : <h3>{produit.user?.name || "anonyme"}</h3></h6>
+            <h6>posté par : {produit.user?.name || "anonyme"} </h6>
+            {produit.user?.image && <img src={`http://localhost:5000/uploads/${produit.user.image}`} style={{width:'30px', height:'auto'}}/>}
 
             <h1 className="titre">{produit.titre}</h1>
 
             <div className="image">
                 {Array.isArray(produit.images) ? (
                 produit.images.map((prod, index)=> (
-                    <img key={index} src={`http://localhost:5000/uploads/${prod}`} style={{ width: '100px', height: 'auto'}}/>
+                    <img key={index} src={`http://localhost:5000/uploads/${prod}`} style={{ width: '100%', height: '150%'}}/>
                 ))
                 ) : produit.images ? 
                 (<img src={`http://localhost:5000/uploads/${produit.images}`}/>) 
@@ -46,6 +48,7 @@ export default function Productcard({produit}) {
                 <button>Contacter le créateur</button>
             </Link>
             )}
+            <button onClick={()=>AjouterFavorie(produit)}>favorie</button>
             {!estdanspanier && <button onClick={()=>ajouter(produit)} disabled={loading || !user}>ajouter au panier</button>}
             
         </div>

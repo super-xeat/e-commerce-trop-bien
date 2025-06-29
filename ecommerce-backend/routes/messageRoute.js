@@ -58,7 +58,7 @@ route.get('/:userid', async (req, res) => {
       $or: [{ user1: objectId }, { user2: objectId }]
     }).populate('user1 user2', 'name _id');
 
-    console.log("Messages trouvés :", conversation); // <- maintenant c’est bon ici
+    console.log("Messages trouvés :", conversation); 
 
     const users = new Set();
 

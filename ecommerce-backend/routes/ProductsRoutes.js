@@ -11,7 +11,7 @@ const uploads = require('../middleware/upload')
 
 route.get('/', async (req, res)=> {
     try {
-    const products = await Products.find().populate('user', 'name')
+    const products = await Products.find().populate('user', 'name image')
     res.json(products)
     } catch (error) {
         return res.status(400).json({message: 'erreur'})

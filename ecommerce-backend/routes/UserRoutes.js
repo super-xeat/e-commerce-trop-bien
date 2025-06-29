@@ -5,7 +5,7 @@ const express = require('express')
 const route = express.Router()
 const User = require('../models/user')
 const upload = require('../middleware/upload')
-
+const Products = require('../models/produit')
 
 route.get('/', async(req, res)=> {
     try {
@@ -32,7 +32,7 @@ route.delete('/:id', async(req, res)=> {
 route.get('/:id', async (req, res)=> {
     const {id} = req.params
     try {
-        const user = await User.findById(id)
+        const user = await User.findById(id).populate('favorie')
         if (!user) return res.status(404).json({message:'erreur'})
         res.json(user)
     } catch (error) {
@@ -58,14 +58,40 @@ route.put('/:id', async(req, res)=> {
 
 route.put('/image/:id', upload.single('image'), async(req, res)=> {
     const {id} = req.params
+    console.log("id recu", id)
     
     try {
-        const user = await User.findByIdAndUpdate(id, 
-            {image: req.file.path},
-            {new: true}
-        )
-        const saved = await user.save()
-        res.status(200).json({message: 'cest bon', saved})
+        const user = await User.findById(id);
+        if (!user) return res.status(404).json({ message: 'Utilisateur pas trouvé' });
+
+        user.image = req.file.filename; 
+        console.log('image recu', req.file)
+
+        if (!req.file.filename) {
+            return res.status(400).json({message: 'erreur'})
+        }
+        await user.save();
+        res.status(200).json({message: 'cest bon', user})
+    } catch (error) {
+        return res.status(400).json({message: 'erreur'})
+    }
+})
+
+route.post('/:userid/favoris/:productid', async(req, res)=> {
+    const {userid, productid} = req.params
+    try {
+        const user = await User.findById(userid).populate('favorie')
+        if (!user) {
+            return res.status(400).json({message: 'erreur'})
+        }
+
+        if (user.favorie.includes(productid)) {
+            return res.status(400).json({message:'produit deja en favorie'})
+        }
+
+        user.favorie.push(productid)
+        await user.save()
+        res.status(200).json({message: 'cest bon'})
     } catch (error) {
         return res.status(400).json({message: 'erreur'})
     }

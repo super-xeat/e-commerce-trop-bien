@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 
 export default function Register() {
 
-    const {register} = useAuth()
+
+    const {register, image, setimage} = useAuth()
     const [email, setmail] = useState('')
     const [password, setpassword] = useState('')
     const [name, setname] = useState('')
@@ -14,11 +15,11 @@ export default function Register() {
     const [step, setstep] = useState(1)
     const [code, setcode] = useState('')
     const [champ, setchamps] = useState(false)
-
+    
     
         async function submit_register(e) {
             e.preventDefault()
-            await register({name, email, password})
+            await register({name, email, password, image})
             setstep(2)
         }
     
@@ -45,6 +46,7 @@ export default function Register() {
     } catch (error) {
         console.log('erreur de serveur', error)
     }}
+
     
     
 
@@ -55,6 +57,7 @@ export default function Register() {
                 <input onChange={(e)=>{setname(e.target.value); setchamps(true)}} value={name} placeholder="name" />
                 <input onChange={(e)=>setmail(e.target.value)} value={email} placeholder="email"/>
                 <input onChange={(e)=>setpassword(e.target.value)} value={password} placeholder="mot de passe"/>
+                <input onChange={(e)=>setimage(e.target.files[0])} type="file"/>
                 <button type="submit">soumettre</button>
             </form>
             

@@ -8,7 +8,7 @@ const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const transporter = require('../services/email');
-
+const upload = require('../middleware/upload')
 
 
 function generateCode() {
@@ -49,9 +49,11 @@ route.post('/login', async (req, res)=> {
 })
 
 
-route.post('/register', async (req, res)=> {
+route.post('/register', upload.single('image'), async (req, res)=> {
+
     console.log('Données reçues :', req.body)
     const {name, email, password} = req.body
+    
     try {
         const emailexist = await User.findOne({email})
         if (emailexist) {
@@ -69,6 +71,7 @@ route.post('/register', async (req, res)=> {
             password: hashing, 
             verifycode: code, 
             verified: false,
+            image: req.file ? req.file.filename : null,
         })
 
         const saved = await newuser.save()
@@ -82,7 +85,7 @@ route.post('/register', async (req, res)=> {
 
         res.status(201).json({message: 'utilisateur créé', user:saved})
     } catch (error) {
-        console.error("Erreur dans /register :", error); // 🔥 AJOUTE ÇA
+        console.error("Erreur dans /register :", error); 
         res.status(500).json({message: "erreur serveur"})
     }
 })

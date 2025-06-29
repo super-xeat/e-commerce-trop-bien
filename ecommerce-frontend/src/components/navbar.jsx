@@ -8,10 +8,11 @@ import { useCart } from "../context/cartcontext";
 
 export default function Navbar() {
 
-    const {authentificated, logout, user} = useAuth()
+    const {authentificated, logout, user, image} = useAuth()
     const {search, setsearch, setchamp} = useCart()
 
 
+    console.log("image", image)
     return (
         <div className="navbar">
             
@@ -25,6 +26,7 @@ export default function Navbar() {
                 {authentificated && user && <Link to={`/message/${user._id}`}>message</Link>}
                 <Link to="/profil">profil</Link>
                 <Link to={user ? `/panier/${user._id}` : "/panier"}>panier</Link>
+                {image ? (<img src={`http://localhost:5000/uploads/${image}`} style={{width:'30px', height: 'auto'}}/>) : '' }
                 {authentificated && <button onClick={logout}>deconnexion</button>}
             </nav>            
             

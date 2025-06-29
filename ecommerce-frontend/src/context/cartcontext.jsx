@@ -14,6 +14,8 @@ export const CartProvider = ({ children }) => {
     const {user} = useAuth()
     const [search, setsearch] = useState('')
     const [champ, setchamp] = useState(false)
+    const [favorie, setfavorie] = useState([])
+    const [voirFav, setvoirFav] = useState(false)
 
 
     function ajouter(newprod) {
@@ -69,6 +71,19 @@ export const CartProvider = ({ children }) => {
     }
 
     
+    async function AjouterFavorie(newprod) {
+        try {
+            const response = await fetch(`http://localhost:5000/users/${user._id}/favoris/${newprod._id}`, {
+                method: 'POST',
+            })
+
+            const data = await response.json()
+            console.log('ajouter au fav', data)
+        } catch (error) {
+            console.error('erreur')
+        }
+    }
+
     function ajoutercom(newcom) {
         setcomments([...comments, newcom])
     }
@@ -93,7 +108,11 @@ export const CartProvider = ({ children }) => {
             filtre_search, 
             setsearch,
             champ,
-            setchamp
+            setchamp,
+            AjouterFavorie,
+            favorie,
+            voirFav,
+            setvoirFav
             }}>
             {children}
         </Cartcontext.Provider>

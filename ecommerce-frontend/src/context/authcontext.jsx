@@ -10,8 +10,9 @@ export const AuthProvider = ({ children }) => {
     const [authentificated, setauthentificated] = useState(false)
     const [user, setuser] = useState(null)
     const [token, settoken] = useState('')
-
+    const [image, setimage] = useState([])
     const [loading, setloading] = useState(true)
+    
 
 
     async function login( email, password) {
@@ -34,6 +35,7 @@ export const AuthProvider = ({ children }) => {
             setuser(data.user)
             settoken(data.token)
             setauthentificated(true)
+            
             return data.user
             
         } catch (error) {
@@ -44,15 +46,19 @@ export const AuthProvider = ({ children }) => {
     }
 
 
-    async function register({name, email, password}) {
+    async function register({name, email, password, image}) {
+
+        const formdata = new FormData()
+        formdata.append('name', name)
+        formdata.append('email', email)
+        formdata.append('password', password)
+        if (image) formdata.append('image', image)
         try {
         setloading(true)
-        console.log("Données envoyées à l'API :", { name, email, password });
 
         const response = await fetch('http://localhost:5000/auth/register', {
             method: 'POST',
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({name, email, password})
+            body: formdata
         })
 
         const data = await response.json()
@@ -80,12 +86,27 @@ export const AuthProvider = ({ children }) => {
         setauthentificated(false)
     }
 
-    
+    function updateUser(updatedUser) {
+        setuser((prevUser) => ({ ...prevUser, ...updatedUser }));
+    }
+
 
     return (
-        <AuthContext.Provider value={{ user, token, setauthentificated, authentificated, login, logout, register, loading}}>
+        <AuthContext.Provider value={{ 
+            user, 
+            token, 
+            setauthentificated, 
+            authentificated, 
+            login, 
+            logout, 
+            register, 
+            image,
+            setimage,
+            loading,
+            updateUser
+            }}>
             {children}
-        </AuthContext.Provider>
+        </AuthContext.Provider>  
     )
 }
 

@@ -3,33 +3,42 @@
 import { useAuth } from "../context/authcontext";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useCart } from "../context/cartcontext";
+import Favori from "../components/favori";
+
 
 export default function Profil() {
 
-    const {authentificated, user} = useAuth()
-    const [email, setmail] = useState()
-    const [name, setname] = useState()
-    const [image, setimage] = useState([])
+    const { user, image, setimage } = useAuth()
+    const [email, setmail] = useState('')
+    const [name, setname] = useState('')
+    const {voirFav, setvoirFav} = useCart()
+    const [imageFile, setimageFile] = useState(null)
 
 
     useEffect(()=> {
-        if (!user || !user.id) return
-        fetch(`http://localhost:5000/users/${user.id}`)
+        if (!user || !user._id) return
+        fetch(`http://localhost:5000/users/${user._id}`)
             .then(res => res.json())
-            .then(data => {setmail(data.email)
-                        setname(data.name)})
+            .then(data =>               
+                {
+                console.log(data)
+                setmail(data.email)
+                setname(data.name)
+                setimage(data.image)})
+                    
     }, [user])
 
     async function handlesubmit(e) {
         e.preventDefault()
         try {
-            const response = await fetch(`http://localhost:5000/users/${user.id}`, {
+            const response = await fetch(`http://localhost:5000/users/${user._id}`, {
                 method: 'PUT',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({email, name})
             })
 
-            const data = response.json()
+            const data = await response.json()
             setname('')
             setmail('')
 
@@ -40,21 +49,31 @@ export default function Profil() {
 
     async function handleImage(e) {
         e.preventDefault()
+
+        if (!imageFile) {
+            console.error("Aucun fichier sélectionné !");
+            return;
+        }
+        
         const formdata = new FormData()
-        formdata.append('image', image)
+        formdata.append('image', imageFile)
+
+        
 
         try {
-            const response = await fetch(`http://localhost:5000/image/${user._id}`,{
+            const response = await fetch(`http://localhost:5000/users/image/${user._id}`,{
                 method: 'PUT',
                 body: formdata}
             )
             const data = await response.json()
             console.log(data)
-            setimage(null)
+            setimage(data.user.image)
+            setimageFile(null)
         } catch (error) {
             console.error('erreur')
         }
     }
+    console.log("Image filename:", image)
 
     return (
         <div>
@@ -70,12 +89,14 @@ export default function Profil() {
                     une photo de profils ou bien la changer, de mème pour 
                     votre adresse mail ou votre identifiant.
                 </p>
+                <h3>votre pseudo actuelle : {user.name}</h3>
                 <input onChange={(e)=>setname(e.target.value)} 
                 type="text" 
                 value={name}
                 placeholder="changer mon pseudo"
                 />
                 <br />
+                <h3>votre mail actuelle : {user.email}</h3>
                 <input onChange={(e)=>setmail(e.target.value)} 
                 type="text" 
                 value={email}
@@ -85,13 +106,18 @@ export default function Profil() {
                 <button type="submit">modifier</button>               
             </form>
             <br />
+            
+            {image ? (<img src={`http://localhost:5000/uploads/${image}`} style={{ width: '100px', height:'auto', objectFit:'cover'}}/>) :
+            (<p>pas de photo actuellement</p>)}
             <br />
-            <form onSubmit={handleImage}>
+            <form onSubmit={handleImage} encType="multipart/form-data">
                 <input type="file"
-                onChange={(e)=>setimage(e.target.files)}
-                value={image}/>
+                onChange={(e)=>setimageFile(e.target.files[0])}
+                />
                 <button type="submit">changer sa photo</button>
             </form>
+            <button onClick={()=>setvoirFav(true)}>voir ma liste de favorie</button>
+            {voirFav && <Favori/>}
             </> 
                )
             }
