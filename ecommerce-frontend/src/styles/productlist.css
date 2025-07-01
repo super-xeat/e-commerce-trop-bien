@@ -28,6 +28,9 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  list-style: none;
+  padding:0 1rem;
+  margin:0 3rem;
 
 }
 

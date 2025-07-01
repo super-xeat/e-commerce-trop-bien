@@ -1,46 +1,69 @@
 .navbar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background-color: rgba(245, 245, 245, 0.967);
-    width: 100%;
+    padding: 0 2rem;
     height: 3rem;
 }
 
-nav { 
+.navbar h1 {
+    font-size: 1.5rem;
+    color: orangered;
+    margin: 0;
+}
+
+
+.nav { 
     display: flex;
-    text-align: end;
-}
-
-.nav Link {
-    margin-top: 10px;
-}
-
-
-.AjoutProduit {
-    color: whitesmoke;
-    background-color: rgb(255, 145, 0);
-    border-radius: 30px;
-    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 60%;
     
 }
 
 nav a {
     color: orangered;
-    margin-left: 10px;
-    margin-top: 10px;
     text-decoration: none;
-    font-size: 19px;
-    font-weight: 900;
+    font-size: 1rem;
+    font-weight: 800;
 }
 
+.AjoutProduit {
+    color: whitesmoke;
+    background-color: rgb(255, 145, 0);
+    border-radius: 20px;
+    padding: 0.3rem 1rem;
+    
+}
+
+.utilisateur {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.utilisateur img {
+    border-radius: 20px;
+}
+
+.utilisateur button {
+    border-radius: 20px;
+}
+  
 .search {
-    margin-right: 5%;
-    margin-top: 1%;
+    margin-left: auto;
+    display: flex;
+    justify-content: flex-end;
+    width: 15%;
 }
 
 .search input {
     border-radius: 10px;
     width: 100%;
-    height: 30px;
+    padding: 0.3rem 0.8rem;
+    max-width: 200px;
+    border: 1px solid;
 }    
 

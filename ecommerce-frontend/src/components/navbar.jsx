@@ -15,10 +15,9 @@ export default function Navbar() {
     console.log("image", image)
     return (
         <div className="navbar">
-        
-            <div>
-                <h1>Le coin bon</h1>
-            </div>
+                 
+            <h1>Le coin bon</h1>
+            
             <nav className="nav">
                 <Link to="/">Accueil</Link>               
                 {!authentificated && <Link to="/register">se connecter</Link>}
@@ -26,10 +25,16 @@ export default function Navbar() {
                 {authentificated && user && <Link to={`/message/${user._id}`}>message</Link>}
                 <Link to="/profil">profil</Link>
                 <Link to={user ? `/panier/${user._id}` : "/panier"}>panier</Link>
-                {image ? (<img src={`http://localhost:5000/uploads/${image}`} style={{width:'30px', height: 'auto'}}/>) : '' }
+            </nav>    
+
+            <div className="utilisateur">
+                {image && (
+                    <img 
+                    src={`http://localhost:5000/uploads/${image}`} 
+                    style={{width:'30px', height: 'auto'}}
+                    />)}
                 {authentificated && <button onClick={logout}>deconnexion</button>}
-            </nav>            
-            
+            </div>
             
             <div className="search">
                 <input onChange={(e)=>setsearch(e.target.value)} 
