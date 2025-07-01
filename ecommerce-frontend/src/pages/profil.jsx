@@ -12,9 +12,15 @@ export default function Profil() {
     const { user, image, setimage } = useAuth()
     const [email, setmail] = useState('')
     const [name, setname] = useState('')
-    const {voirFav, setvoirFav} = useCart()
+    const {voirFav, setvoirFav, setlisteprofil} = useCart()
     const [imageFile, setimageFile] = useState(null)
 
+    
+
+    useEffect(()=> {
+        setlisteprofil(true)
+        return ()=> setlisteprofil(false)
+    }, [])
 
     useEffect(()=> {
         if (!user || !user._id) return

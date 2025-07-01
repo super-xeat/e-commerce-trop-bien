@@ -2,6 +2,7 @@
 
 import {useCart} from "../context/cartcontext"
 import { useAuth } from "../context/authcontext"
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import '../styles/productcard.css'
 
@@ -10,12 +11,37 @@ import '../styles/productcard.css'
 
 export default function Productcard({produit}) {
 
-    const {ajouter, liste, AjouterFavorie} = useCart()
+    const {ajouter, liste, 
+            AjouterFavorie, 
+            listeFavorie, 
+            listeprofil, 
+            setlisteprofil,
+            suppFavorie} = useCart()
     const {loading, user} = useAuth()
+    const [isfavorie, setisfavorie] = useState(false)
+
 
     const estdanspanier = liste.some(item => item._id === produit._id)
+    
 
-    console.log(produit.user)
+    useEffect(()=> {
+        const estdansfavorie = listeFavorie.some(item => item._id === produit._id)
+        setisfavorie(estdansfavorie)
+    }, [listeFavorie, produit._id])
+
+
+    function buttonFAV() {
+        if (!user) return
+
+        if (!isfavorie) {
+            AjouterFavorie(produit)
+        } else {
+            suppFavorie(user._id, produit._id)
+        }
+        setisfavorie(!isfavorie)
+
+    }
+
     return (
         
         <div className="productcard">
@@ -48,13 +74,23 @@ export default function Productcard({produit}) {
                 <button>Contacter le créateur</button>
             </Link>
             )}
-            <button onClick={()=>AjouterFavorie(produit)}>favorie</button>
-            {!estdanspanier && <button onClick={()=>ajouter(produit)} disabled={loading || !user}>ajouter au panier</button>}
             
-        </div>
+        
+            {user && !listeprofil &&
+            <button 
+            onClick={()=>buttonFAV()} 
+            style={{ backgroundColor: isfavorie ? 'white' : 'red'}}>
+            favorie
+            </button>}
             
+            {!estdanspanier && 
+            <button 
+            onClick={()=>ajouter(produit)} 
+            disabled={loading || !user}>
+            ajouter au panier
+            </button>}
             
-            
+        </div>       
         
     )
 }

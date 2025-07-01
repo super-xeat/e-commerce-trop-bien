@@ -47,6 +47,7 @@ export default function Productlist() {
 
                     ))}
                 </ul>)}
+            <hr />
             <ul className="categorie">
                 <li onClick={()=>setcategorie("ménage")}>ménage</li>
                 <li onClick={()=>setcategorie("salon")}>salon</li>
@@ -55,6 +56,7 @@ export default function Productlist() {
                 <li onClick={()=>setcategorie("équipement")}>équipement</li>
                 <li onClick={()=>setcategorie("tous les produits")}>Tous les produits</li>
             </ul>
+            <hr />
             <div className="grille">
                 {filtre.map((prod)=> (
                     <li key={prod._id}>

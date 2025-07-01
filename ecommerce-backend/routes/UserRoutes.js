@@ -98,6 +98,33 @@ route.post('/:userid/favoris/:productid', async(req, res)=> {
 })
 
 
+route.delete('/:userid/favoris/:productid', async(req, res)=> {
+    const {userid, productid} = req.params
+    console.log(req.params)
+
+    try {
+        const user = await User.findById(userid)
+        if (!user) {
+            return res.status(400).json({message:'erreur'})
+        }
+
+        if (!user.favorie.some(item => item.toString() === productid)) {
+            return res.status(400).json({message:'erreur'})
+        }
+        
+        user.favorie = user.favorie.filter(
+        (prodId) => prodId.toString() !== productid
+        )
+    
+        await user.save();   
+        res.status(200).json({messsage:'donné supprimer'})
+
+    } catch (error) {
+        return res.status(400).json({message: 'erreur'})
+    }
+})
+
+
 module.exports = route
 
 

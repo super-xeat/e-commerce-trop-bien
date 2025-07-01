@@ -15,11 +15,11 @@ export default function Navbar() {
     console.log("image", image)
     return (
         <div className="navbar">
-            
+        
             <div>
                 <h1>Le coin bon</h1>
             </div>
-            <nav>
+            <nav className="nav">
                 <Link to="/">Accueil</Link>               
                 {!authentificated && <Link to="/register">se connecter</Link>}
                 <Link to="/ajoutproduit" className="AjoutProduit">mettre un produit</Link>

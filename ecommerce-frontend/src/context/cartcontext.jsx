@@ -16,6 +16,8 @@ export const CartProvider = ({ children }) => {
     const [champ, setchamp] = useState(false)
     const [favorie, setfavorie] = useState([])
     const [voirFav, setvoirFav] = useState(false)
+    const [listeFavorie, setlisteFavorie] = useState([])
+    const [listeprofil, setlisteprofil] = useState(false)
 
 
     function ajouter(newprod) {
@@ -84,6 +86,19 @@ export const CartProvider = ({ children }) => {
         }
     }
 
+    async function suppFavorie(userid, productid) {
+        try {
+            await fetch(`http://localhost:5000/users/${userid}/favoris/${productid}`, {
+                method: 'DELETE'
+            })
+
+            console.log('element supprimé')
+        } catch (error) {
+            console.error('erreur')
+        }
+    }
+
+
     function ajoutercom(newcom) {
         setcomments([...comments, newcom])
     }
@@ -110,9 +125,15 @@ export const CartProvider = ({ children }) => {
             champ,
             setchamp,
             AjouterFavorie,
-            favorie,
+            setfavorie,
+            favorie, 
             voirFav,
-            setvoirFav
+            setvoirFav,
+            suppFavorie,
+            listeFavorie, 
+            setlisteFavorie,
+            listeprofil,
+            setlisteprofil
             }}>
             {children}
         </Cartcontext.Provider>
