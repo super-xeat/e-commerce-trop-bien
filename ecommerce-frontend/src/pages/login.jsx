@@ -21,7 +21,7 @@ export default function Login() {
     }
     
     return(
-        <div>
+        <div style={{paddingTop: '3rem'}}>
             <form onSubmit={submit_login}>
                 <input onChange={(e)=>setmail(e.target.value)} type="email" value={email}/>
                 <input onChange={(e)=>setpassword(e.target.value)} type="password" value={password}/>

@@ -82,7 +82,7 @@ export default function Profil() {
     console.log("Image filename:", image)
 
     return (
-        <div>
+        <div style={{paddingTop: '3rem'}}>
             
             <h3>voulez vous modifier votre identifiant ou votre mail ?</h3>
             {!user ? (<p>vous devez vous connecté ou vous inscrire</p>) :

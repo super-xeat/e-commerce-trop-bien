@@ -5,6 +5,7 @@ import { useAuth } from "../context/authcontext"
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import '../styles/productcard.css'
+import { FaHeart, FaRegHeart, FaShoppingCart, FaEye } from "react-icons/fa";
 
 
 
@@ -46,49 +47,53 @@ export default function Productcard({produit}) {
         
         <div className="productcard">
 
-            <h6>posté par : {produit.user?.name || "anonyme"} </h6>
-            {produit.user?.image && <img src={`http://localhost:5000/uploads/${produit.user.image}`} style={{width:'30px', height:'auto'}}/>}
-
-            <h1 className="titre">{produit.titre}</h1>
+            <div className="profil">
+                <h5>posté par : {produit.user?.name || "anonyme"} </h5>
+                {produit.user?.image && <img src={`http://localhost:5000/uploads/${produit.user.image}`} style={{width:'30px', height:'auto'}}/>}
+            </div>
+            <hr />
+            <h1>{produit.titre}</h1>
+            
 
             <div className="image">
                 {Array.isArray(produit.images) ? (
                 produit.images.map((prod, index)=> (
-                    <img key={index} src={`http://localhost:5000/uploads/${prod}`} style={{ width: '100%', height: '150%'}}/>
+                    <img key={index} src={`http://localhost:5000/uploads/${prod}`} style={{ width: '100%', height: 'auto', maxHeight: '200px', objectFit:'cover'}}/>
                 ))
                 ) : produit.images ? 
                 (<img src={`http://localhost:5000/uploads/${produit.images}`}/>) 
                 : (<p>Pas d'image pour cet article</p>)}
             </div>
 
-            <h3>{produit.description}</h3>
-            <h2>prix : {produit.price}</h2>
-            <h5>catégorie: {produit.categorie}</h5> 
-
-            <Link to={`/products/${produit._id}`}>
-            <button>voir les détails</button>
-            </Link>
-
-            {user && produit.user && produit.user._id && user._id !== produit.user._id && (
-            <Link to={`/message/${user._id}/${produit.user._id}`}>
-                <button>Contacter le créateur</button>
-            </Link>
-            )}
             
-        
-            {user && !listeprofil &&
-            <button 
-            onClick={()=>buttonFAV()} 
-            style={{ backgroundColor: isfavorie ? 'white' : 'red'}}>
-            favorie
-            </button>}
+
+            <div className="boutons">
+                <Link to={`/products/${produit._id}`}>
+                <button><FaEye/></button>
+                </Link>
+
+                {user && produit.user && produit.user._id && user._id !== produit.user._id && (
+                <Link to={`/message/${user._id}/${produit.user._id}`}>
+                    <button>Contacter le créateur</button>
+                </Link>
+                )}
+                
             
-            {!estdanspanier && 
-            <button 
-            onClick={()=>ajouter(produit)} 
-            disabled={loading || !user}>
-            ajouter au panier
-            </button>}
+                {user && !listeprofil &&
+                <button 
+                onClick={()=>buttonFAV()} 
+                style={{ backgroundColor: isfavorie ? 'white' : 'red'}}>
+                <FaRegHeart />
+                </button>}
+                
+                {!estdanspanier && 
+                <button 
+                onClick={()=>ajouter(produit)} 
+                disabled={loading || !user}>
+                <FaShoppingCart/>
+                </button>}
+            </div>
+            
             
         </div>       
         

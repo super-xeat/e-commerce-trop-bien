@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Productcard from "./productcard";
 import {useCart} from "../context/cartcontext";
 import '../styles/productlist.css';
-
+import { Link } from "react-router-dom";
 
 
 export default function Productlist() {
@@ -34,8 +34,10 @@ export default function Productlist() {
     }, [categorie, listeProduits])
 
     return (
-        <div className={champ ? 'dark-mode': 'liste'}>
-            {search && (
+        <div className={champ ? 'dark-mode': 'liste'} style={{paddingTop: '4rem'}}>
+            
+            <div className="recherche-result">
+                {search && (
                 <ul className="result">
                     {filtre_search.map(item => (
                         <div>
@@ -47,9 +49,18 @@ export default function Productlist() {
 
                     ))}
                 </ul>)}
+            </div>
+
             <hr />
+
             <ul className="categorie">
                 <li onClick={()=>setcategorie("ménage")}>ménage</li>
+                <li onClick={()=>setcategorie("animaux")}>animaux</li>
+                <li onClick={()=>setcategorie("films")}>films</li>
+                <li onClick={()=>setcategorie("habits")}>habits</li>
+                <li onClick={()=>setcategorie("moto")}>moto</li>
+                <li onClick={()=>setcategorie("maison")}>maison</li>
+                <li onClick={()=>setcategorie("ordinateurs")}>ordinateurs</li>
                 <li onClick={()=>setcategorie("salon")}>salon</li>
                 <li onClick={()=>setcategorie("jeux")}>jeux</li>
                 <li onClick={()=>setcategorie("voiture")}>voiture</li>
@@ -57,7 +68,9 @@ export default function Productlist() {
                 <li onClick={()=>setcategorie("tous les produits")}>Tous les produits</li>
             </ul>
             <hr />
-            
+
+            <Link to="/ajoutproduit">ajouter un produit</Link>
+             
             <div className="grille">
                 {filtre.map((prod)=> (
                     <li key={prod._id}>

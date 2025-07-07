@@ -2,19 +2,22 @@
 
 import { useParams, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { useAuth } from '../context/authcontext'
+
 
 
 export default function Conversation() {
   const { userid } = useParams()
   const [users, setUsers] = useState([])
   const [loading, setloading] = useState(true)
+  const {user} = useAuth()
 
 
   useEffect(() => {
     
     async function fetchData() {
       try {
-      const res = await fetch(`http://localhost:5000/message/${userid}`)
+      const res = await fetch(`http://localhost:5000/message/${user._id}`)
       const data = await res.json()
       console.log('Réponse serveur :', data)
       setUsers(data)
@@ -28,9 +31,12 @@ export default function Conversation() {
   }, [userid])
 
   if (loading) return <p>chargement...</p>
-
+  if (!user) return <p>vous devez vous connecté</p>
+  
   return (
-    <div>
+    <div style={{paddingTop: '3rem'}}>
+      {user ? (
+      <>
       <h1>Conversations de l'utilisateur</h1>
       {users.length === 0 ? (
         <p>Aucune conversation trouvée.</p>
@@ -44,6 +50,10 @@ export default function Conversation() {
             </li>
           ))}
         </ul>
+      )}
+      </>
+      ) : (
+        <p>vous devez vous connecter</p>
       )}
     </div>
   )

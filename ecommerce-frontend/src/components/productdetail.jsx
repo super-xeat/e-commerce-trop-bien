@@ -1,11 +1,10 @@
 
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Commentlist from "./commentlist";
 import Commentaireform from "./commentform";
 import { useAuth } from "../context/authcontext";
 import { useNavigate } from "react-router-dom";
-
+import '../styles/productdetail.css'
 
 
 export default function Productdetail() {
@@ -67,7 +66,7 @@ export default function Productdetail() {
 
 
     return(
-        <div>
+        <div style={{paddingTop: '3rem'}} className="conteneur-productdetail">
             {prod && (
             <>
                 <h1>{prod.titre}</h1>
@@ -83,11 +82,9 @@ export default function Productdetail() {
                 {user && user.role === 'admin' && <button onClick={()=>supprimerAdmin(prod._id)}>supprimer</button>}
                 <br />
                 <br />
-                <h2>Liste des commentaires :</h2>
-                <Commentlist/>
-                <br /><br />
-                <h3>Ajouter un commentaire :</h3>
-                <Commentaireform/>
+                <div className="section-commentaire">
+                    <Commentaireform/>
+                </div>
             </>
         )}
         </div>

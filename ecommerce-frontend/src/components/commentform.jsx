@@ -1,32 +1,45 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/authcontext";
-import {useCart} from "../context/cartcontext";
 import { useParams } from "react-router-dom";
+import Commentitem from "./commetitem";
 
 
 export default function Commentaireform() {
 
-    const [autor, setautor] = useState('')
+    
     const [texte, settexte] = useState('')
-    const {authentificated} = useAuth()
-    const {ajoutercom, setcomments} = useCart()
+    const {authentificated, user} = useAuth()
     const {id} = useParams()
+    const [comments, setcomments] = useState([])
 
-    // faire un appel fetch pour envoyer le com
+
+    useEffect(()=> {
+        fetch(`http://localhost:5000/comments/${id}`)
+        .then(res=> res.json())
+        .then(data => setcomments(data))
+    }, [id])
+
+
     async function soumettre_com(e) {
         e.preventDefault()
         try {
             const response = await fetch(`http://localhost:5000/comments/${id}`,{
                 method : 'POST',
                 headers: {'Content-type': 'application/json'},
-                body: JSON.stringify({name: autor, text: texte, product: id})
-
+                body: JSON.stringify({name: user?.name , text: texte, product: id})
+                
             }) 
+               
             const data = await response.json()
-            setcomments(data)
-            setautor('')
+            setcomments(prev => [...prev, data])
             settexte('')
+            if (!response.ok) {
+                console.log('donné pas envoyé')
+            } else {
+                console.log('donné envoyé')
+            }
+            
 
         } catch (error) {
             console.error('erreur')
@@ -36,9 +49,16 @@ export default function Commentaireform() {
 
     return (
         <div>
+            <ul>
+                {comments.map((com)=> (
+                    <li key={com._id}>
+                        <Commentitem comment={com}/>
+                    </li>
+                ))}
+            </ul>
+
             {!authentificated ? <p>vous devez vous connectez pour commenter</p> :
             <form onSubmit={soumettre_com}>
-                <input onChange={(e)=>setautor(e.target.value)} value={autor} type="text"/>
                 <input onChange={(e)=>settexte(e.target.value)} value={texte} type="text"/>
                 <button type="submit">soumettre</button>
             </form>

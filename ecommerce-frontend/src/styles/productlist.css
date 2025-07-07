@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 
-
+ 
 body {
   background-color: rgba(243, 238, 238, 0.967);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,24 +18,30 @@ body {
 
 
 .categorie {
+  position: fixed;
+  top: 3rem;
   display: flex;
   list-style: none;
+  border: 1px solid black;
   gap: 1rem;
   background-color: aliceblue;
 }
 
 .grille {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   list-style: none;
   padding:0 1rem;
   margin:0 3rem;
-
+  min-height: 100vh;
 }
 
 .grille li {
   text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dark-mode {

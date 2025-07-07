@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
     const [token, settoken] = useState('')
     const [image, setimage] = useState([])
     const [loading, setloading] = useState(true)
-    
 
 
     async function login( email, password) {
@@ -103,7 +102,7 @@ export const AuthProvider = ({ children }) => {
             image,
             setimage,
             loading,
-            updateUser
+            updateUser,
             }}>
             {children}
         </AuthContext.Provider>  

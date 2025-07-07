@@ -13,13 +13,16 @@ import {Panier} from './components/panier';
 import Profil from './pages/profil';
 import { Messagelist } from './components/message';
 import Conversation from './pages/conversation';
-
+import Footer from './components/footer';
+import Message from './components/message-bis';
+import {PrivateRoute} from './components/private';
 
 
 
 export default function App() {
 
-  return(
+
+  return (
     <AuthProvider>
       <CartProvider>
         <BrowserRouter>
@@ -34,9 +37,12 @@ export default function App() {
             <Route path='/panier/:id' element={<Panier/>}/>
             <Route path='/products/:id' element={<Productdetail/>}/>
             <Route path='/profil' element={<Profil/>}/>
-            <Route path="/message/:userid" element={<Conversation/>} />
-            <Route path="/message/:user1id/:user2id" element={<Messagelist/>} />
+            <Route path='/message/:userid' element={<Conversation/>} />
+            <Route path='/message' element={<Message/>}/>
+             
+            <Route path="/message/:user1id/:user2id" element={<PrivateRoute><Messagelist/></PrivateRoute>} />
           </Routes>
+          <Footer/>
         </BrowserRouter>
       </CartProvider>
     </AuthProvider>

@@ -40,7 +40,7 @@ route.get('/liste/:user1id/:user2id', async (req, res)=> {
         res.status(400).json({message: 'erreur envoi message'})
     }
 })
- 
+  
 
 route.get('/:userid', async (req, res) => {
   const { userid } = req.params;
