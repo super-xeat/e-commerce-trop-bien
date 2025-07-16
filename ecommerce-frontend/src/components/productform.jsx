@@ -1,8 +1,9 @@
 
 
-
 import { useState } from "react";
 import { useAuth } from "../context/authcontext";
+import '../styles/productform.css'
+
 
 export default function Productform() {
 
@@ -56,8 +57,19 @@ export default function Productform() {
         
     }
 
+    const handleimage = (e) => {
+        const liste = Array.from(e.target.files)
+
+        const previews = liste.map(file => ({
+            file: file,
+            preview: URL.createObjectURL(file)
+        }))
+
+        setimage(previews)
+    }
+
     return (
-        <div style={{paddingTop: '3rem'}}>
+        <div style={{paddingTop: '4rem'}}>
             
             {!authentificated ? <h1>vous devez vous connecter</h1> : 
             (
@@ -73,6 +85,7 @@ export default function Productform() {
                 <br />
 
                 <h3>A quel catégorie classeriez vous votre produit :</h3>
+                 
                 <select onChange={(e)=>setcategorie(e.target.value)} value={categorie}>
                     <option value="menage">ménage</option>
                     <option value="salon">salon</option>
@@ -80,9 +93,21 @@ export default function Productform() {
                     <option value="voiture">voiture</option>
                     <option value="equipement">equipement</option>
                 </select>
+
                 <h3>ajoutez une image (obligatoire)</h3>
-                <input type="file" onChange={(e)=>setimage(e.target.files)} multiple/>
+
+                <input type="file" onChange={handleimage} multiple />
                 <br />
+                
+                <div className="container-image">
+                    {images.map((item, index) => (
+                        <img 
+                        key={index}
+                        src={item.preview}
+                        className="images-selection"/>
+                    ))}
+                </div>
+
                 <button type="submit">ajouter</button>
 
             </form>)

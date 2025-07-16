@@ -5,6 +5,9 @@ import Commentaireform from "./commentform";
 import { useAuth } from "../context/authcontext";
 import { useNavigate } from "react-router-dom";
 import '../styles/productdetail.css'
+import { Splide, SplideSlide } from '@splidejs/react-splide';
+import '@splidejs/react-splide/css';
+
 
 
 export default function Productdetail() {
@@ -18,8 +21,6 @@ export default function Productdetail() {
     
 
     function supprimerAdmin(id) {
-    console.log("ID du produit à supprimer :", id);
-    console.log("Token :", token);
 
     if (!user || user.role !== 'admin') {
         console.warn("Action interdite : seuls les admins peuvent supprimer.");
@@ -69,19 +70,59 @@ export default function Productdetail() {
         <div style={{paddingTop: '3rem'}} className="conteneur-productdetail">
             {prod && (
             <>
-                <h1>{prod.titre}</h1>
-                <p>{prod.description}</p>
-                <p>{prod.note}</p>
-                {Array.isArray(prod.images) ? (
-                    prod.images.map((item, index)=> (
-                        <img key={index} src={`http://localhost:5000/uploads/${item}`} style={{ width:'100px', height: 'auto'}}/>))) : 
-                        prod.images ? (<img src={`http://localhost:5000/uploads/${prod.images}`} style={{ width:'100px', height: 'auto'}}/>) :
-                        (<p>pas d'image</p>)
+                <div className="produit">
+                    <h4>posté par : {prod.user?.name || "anonyme"}</h4>
+
+                    <br />
+
+                    <h1>{prod.titre}</h1>
+                    <p>{prod.description}</p>
                     
-                }
-                {user && user.role === 'admin' && <button onClick={()=>supprimerAdmin(prod._id)}>supprimer</button>}
+                    <br />
+                    
+                    
+                        {Array.isArray(prod.images) ? (
+                        <div className="slide">
+                            <Splide options={{
+                                height: '25rem',
+                                focus: 'center',
+                                arrows: true,
+                                pagination: true,
+                                rewind: true,
+                                }}
+                                aria-label="Images du produit"
+                                                            
+                                >
+
+                                {prod.images.map((item, index)=> (
+                                <SplideSlide key={index}>
+                                    <img key={index} src={`http://localhost:5000/uploads/${item}`}                           
+                                    className="slide-image"
+                                />
+                                </SplideSlide>
+                                ))}
+                            </Splide>
+                        </div>
+                        )
+                    
+                     : 
+
+                        prod.images ? (<img src={`http://localhost:5000/uploads/${prod.images}`} 
+                                style={{ 
+                                    width:'100%', 
+                                    height: 'auto'
+                                }}/>) :
+                            (<p>pas d'image</p>)
+                        
+                    }
+                    <h3>prix : {prod.price} euro</h3>
+                    <h5>catégorie : {prod.categorie}</h5>
+                    {user && user.role === 'admin' && <button onClick={()=>supprimerAdmin(prod._id)}>supprimer</button>}
+                </div>
+
                 <br />
                 <br />
+
                 <div className="section-commentaire">
                     <Commentaireform/>
                 </div>

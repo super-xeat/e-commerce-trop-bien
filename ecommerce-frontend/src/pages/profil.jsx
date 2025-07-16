@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useCart } from "../context/cartcontext";
 import Favori from "../components/favori";
+import '../styles/profil.css'
+
 
 
 export default function Profil() {
@@ -14,13 +16,14 @@ export default function Profil() {
     const [name, setname] = useState('')
     const {voirFav, setvoirFav, setlisteprofil} = useCart()
     const [imageFile, setimageFile] = useState(null)
-
+    const [image2, setimage2] = useState(null)
     
 
     useEffect(()=> {
         setlisteprofil(true)
         return ()=> setlisteprofil(false)
     }, [])
+
 
     useEffect(()=> {
         if (!user || !user._id) return
@@ -34,6 +37,7 @@ export default function Profil() {
                 setimage(data.image)})
                     
     }, [user])
+
 
     async function handlesubmit(e) {
         e.preventDefault()
@@ -52,6 +56,16 @@ export default function Profil() {
             console.error('erreur')
         }
     }
+
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setimageFile(file);
+        setimage2(URL.createObjectURL(file)); 
+    };
+
 
     async function handleImage(e) {
         e.preventDefault()
@@ -81,49 +95,74 @@ export default function Profil() {
     }
     console.log("Image filename:", image)
 
+
+
     return (
-        <div style={{paddingTop: '3rem'}}>
+        <div className="profil-page" style={{paddingTop: '4rem'}}>
             
             <h3>voulez vous modifier votre identifiant ou votre mail ?</h3>
-            {!user ? (<p>vous devez vous connecté ou vous inscrire</p>) :
+            {!user ? (<p className="not-connect">vous devez vous connecté ou vous inscrire</p>) :
             (
             <>
-            <form onSubmit={handlesubmit} className="formulaire">
-                <h2>bonjours {user.name}</h2>
-                <p>
-                    bienvenu sur votre profil ici vous pouvez ajouter 
-                    une photo de profils ou bien la changer, de mème pour 
-                    votre adresse mail ou votre identifiant.
-                </p>
-                <h3>votre pseudo actuelle : {user.name}</h3>
-                <input onChange={(e)=>setname(e.target.value)} 
+
+                <section className="profil-header">
+                    <h2>Bonjour, {user.name}</h2>
+                    <p>
+                        Bienvenue sur votre profil. Ici, vous pouvez modifier votre pseudo,
+                        adresse mail, et photo de profil.
+                    </p>
+                </section>
+
+            <form onSubmit={handlesubmit} className="profil-form">
+                
+                <label>Pseudo actuel : {user.name}</label>        
+                <input 
+                onChange={(e)=>setname(e.target.value)} 
                 type="text" 
                 value={name}
                 placeholder="changer mon pseudo"
                 />
-                <br />
-                <h3>votre mail actuelle : {user.email}</h3>
-                <input onChange={(e)=>setmail(e.target.value)} 
+
+                <label>Adresse mail actuelle : {user.email}</label>
+                <input 
+                onChange={(e)=>setmail(e.target.value)} 
                 type="text" 
                 value={email}
                 placeholder="changer mon adresse mail"
                 />
-                <br />
-                <button type="submit">modifier</button>               
+            
+                <button type="submit" className="btn-submit">modifier</button>               
             </form>
             <br />
             
-            {image ? (<img src={`http://localhost:5000/uploads/${image}`} style={{ width: '100px', height:'auto', objectFit:'cover'}}/>) :
-            (<p>pas de photo actuellement</p>)}
+            <div className="profil-photo">
+                <h3>Photo de profil</h3>
+
+                {image2 ? (
+                    <img src={image2} alt="Prévisualisation" className="profil-img" />
+                ) : image ? (
+                    <img src={`http://localhost:5000/uploads/${image}`} alt="Image actuelle" className="profil-img" />
+                ) : (
+                    <p>Pas de photo actuellement</p>
+                )}
+                  
+                <form onSubmit={handleImage} encType="multipart/form-data">
+                    <input type="file"
+                    onChange={handleImageChange}
+                    />
+                    <button type="submit">changer sa photo</button>
+                </form>
+            </div>
+             
             <br />
-            <form onSubmit={handleImage} encType="multipart/form-data">
-                <input type="file"
-                onChange={(e)=>setimageFile(e.target.files[0])}
-                />
-                <button type="submit">changer sa photo</button>
-            </form>
-            <button onClick={()=>setvoirFav(true)}>voir ma liste de favorie</button>
-            {voirFav && <Favori/>}
+
+            <div className="profil-favoris">
+                <h2>Liste favori : </h2>
+                <button onClick={()=>setvoirFav(true)}>voir ma liste de favorie</button>
+                {voirFav && <Favori/>}
+            </div>
+
+            <br /><br />
             </> 
                )
             }

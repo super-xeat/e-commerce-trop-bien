@@ -42,7 +42,7 @@ export const Panier = () => {
 
 
     return (
-        <div style={{paddingTop: '3rem'}}>
+        <div style={{paddingTop: '4rem'}}>
             {!user ? (<p>veuillez vous connectez</p>) : 
             ( 
             <>

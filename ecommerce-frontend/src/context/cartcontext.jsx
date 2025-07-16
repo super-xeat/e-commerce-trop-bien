@@ -19,6 +19,16 @@ export const CartProvider = ({ children }) => {
     const [listeFavorie, setlisteFavorie] = useState([])
     const [listeprofil, setlisteprofil] = useState(false)
 
+    const [categories] = useState([
+        "ménage", "animaux", "films", "habits", "moto", 
+        "maison", "ordinateurs", "salon", "jeux", 
+        "voiture", "équipement", "tous les produits"
+    ])
+
+    const [categorie, setcategorie] = useState("tous les produits")
+
+     
+
 
     function ajouter(newprod) {
         const prodexist = liste.find(item => item._id === newprod._id)
@@ -133,7 +143,10 @@ export const CartProvider = ({ children }) => {
             listeFavorie, 
             setlisteFavorie,
             listeprofil,
-            setlisteprofil
+            setlisteprofil,
+            categorie,
+            setcategorie,
+            categories
             }}>
             {children}
         </Cartcontext.Provider>

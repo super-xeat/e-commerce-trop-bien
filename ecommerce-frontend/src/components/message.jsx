@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/authcontext";
 import {useParams} from "react-router-dom"
 import { Formulaire } from "./messageform";
-
+import '../styles/message.css'
 
 
 
@@ -35,18 +35,18 @@ export const Messagelist = () => {
     
 
     return (
-        <div>
+        <div style={{padding: '4rem'}} className="message-container">
             
                 {message.length === 0 ? (
                 <p>aucun message pour l'instant</p>) : 
-                (<ul>
+                (<ul className="message-list">
                 {message.map((item, index)=> {
                     const name = item.user1._id === user._id ?  item.user1 : item.user2
                     return (
-                    <li key={item._id || index}>
-                        <h1>{name.name}</h1>
-                        <h2>{item.text}</h2>
-                        <h2>{new Date(item.createdAt).toLocaleString()}</h2>
+                    <li key={item._id || index} className="message-item">
+                        <h1 className="message-autor">{name.name}</h1>
+                        <h2 className="message-text">{item.text}</h2>
+                        <h2 className="message-date">{new Date(item.createdAt).toLocaleString()}</h2>
                     </li>)
                 })}
             </ul>)}

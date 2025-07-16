@@ -15,10 +15,11 @@ export default function Productlist() {
         search, 
         filtre_search,
         champ,
-        setchamp
+        categorie,
+        categories,
+        setcategorie
     } = useCart()
-    const [categorie, setcategorie] = useState('')
-
+    
 
     useEffect(()=> {
         fetch('http://localhost:5000/products')
@@ -33,6 +34,7 @@ export default function Productlist() {
         return filtrage
     }, [categorie, listeProduits])
 
+    
     return (
         <div className={champ ? 'dark-mode': 'liste'} style={{paddingTop: '4rem'}}>
             
@@ -51,26 +53,20 @@ export default function Productlist() {
                 </ul>)}
             </div>
 
-            <hr />
-
+ 
             <ul className="categorie">
-                <li onClick={()=>setcategorie("ménage")}>ménage</li>
-                <li onClick={()=>setcategorie("animaux")}>animaux</li>
-                <li onClick={()=>setcategorie("films")}>films</li>
-                <li onClick={()=>setcategorie("habits")}>habits</li>
-                <li onClick={()=>setcategorie("moto")}>moto</li>
-                <li onClick={()=>setcategorie("maison")}>maison</li>
-                <li onClick={()=>setcategorie("ordinateurs")}>ordinateurs</li>
-                <li onClick={()=>setcategorie("salon")}>salon</li>
-                <li onClick={()=>setcategorie("jeux")}>jeux</li>
-                <li onClick={()=>setcategorie("voiture")}>voiture</li>
-                <li onClick={()=>setcategorie("équipement")}>équipement</li>
-                <li onClick={()=>setcategorie("tous les produits")}>Tous les produits</li>
+                {categories.map((item, index)=> (
+                    <li key={index} onClick={()=>setcategorie(item)}>
+                        {item}
+                    </li>
+                ))}
             </ul>
-            <hr />
+              
+  
+            <div className="case-ajoutproduit">
+                <Link to="/ajoutproduit">Ajouter un produit</Link>
+            </div>
 
-            <Link to="/ajoutproduit">ajouter un produit</Link>
-             
             <div className="grille">
                 {filtre.map((prod)=> (
                     <li key={prod._id}>

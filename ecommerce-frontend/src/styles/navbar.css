@@ -7,66 +7,182 @@
     align-items: center;
     background-color: rgba(245, 245, 245, 0.967);
     padding: 0 2rem;
-    height: 3rem;
+    height: 4rem;
+    z-index: 1000;
 }
 
-.navbar h1 {
+.petite-navbar {
+    display: flex;
+    flex-direction: row;
+}
+
+.logo {
     font-size: 1.5rem;
     color: orangered;
-    margin: 0;
+    margin-right: 0;
+}
+
+.search {
+    margin-left: auto;
+    flex: 1;
+    margin: 0 1rem;
+    max-width: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.search input {
+    border-radius: 10px;
+    width: 60%;
+    padding: 0.3rem 0.8rem;
+    max-width: 400px;
+    border: 1px solid;
+}    
+
+.search input:hover {
+    width: 100%;
+    transition: 1s ease-in-out;
 }
 
 
-.nav { 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    width: 30%;
+.burger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    background: none;
+    border: none;
     
 }
 
-nav a {
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+.menu .AjoutProduit a {
+    color: whitesmoke;
+    background-color: rgb(255, 145, 0);
+    border-radius: 20px;
+    padding: 0.3rem 1rem;
+    text-decoration: none;
+}
+
+
+.menu .liens {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    min-width: 200px;
+}
+
+.menu .liens a {
     color: orangered;
     text-decoration: none;
     font-size: 1rem;
     font-weight: 800;
 }
 
-.AjoutProduit {
-    color: whitesmoke;
-    background-color: rgb(255, 145, 0);
-    border-radius: 20px;
-    padding: 0.3rem 1rem;
-    
-}
 
-.utilisateur {
+.menu .utilisateur {
     display: flex;
     justify-content: center;
     gap: 0.6rem;
 }
 
-.utilisateur img {
+.menu .utilisateur img {
     border-radius: 20px;
 }
 
-.utilisateur button {
+.menu .utilisateur button {
     border-radius: 20px;
 }
-  
-.search {
-    margin-left: auto;
+
+
+.cache {
+  display: none;
+}
+
+
+@media (max-width: 700px) {
+    .burger {
+        display: block;
+    }
+
+    .menu {
+    transform: translateX(-100%);
+    position: fixed;
+    overflow-y: auto;
+    overflow-x: hidden;
+    top: 0rem;
+    left: 0;
+    width: 80%;
+    height: 100vh;
+    transition: transform 0.3s ease-in-out;
     display: flex;
-    justify-content: flex-end;
-    width: 15%;
-}
+    flex-direction: column;
+    background-color: aliceblue;
+    justify-content: space-between;
+    scrollbar-width: thin;
+    z-index: 999;
+  }
 
-.search input {
-    border-radius: 10px;
+  .menu.open {
+    transform: translateX(0);
+    overflow-y: auto;
+  }
+
+  .menu .liens,
+  .menu .utilisateur { 
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  
+
+  .burgerlogo {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .petite-navbar {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    padding: 0.3rem 0.8rem;
-    max-width: 200px;
-    border: 1px solid;
-}    
+  }
+
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+
+  .navbar {
+    height: 5rem;
+  }
+
+  .search {
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .categorie-petite-nav li{
+    margin-bottom: 1rem;
+  }
+
+  .hr {
+    width: 100%;
+    border: none;
+    border-top: 1px solid black;
+  }
+  
+}
 

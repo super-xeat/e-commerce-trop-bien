@@ -1,0 +1,14 @@
+.container-image {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.images-selection {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  border: 2px solid orangered;
+  border-radius: 10px;
+}

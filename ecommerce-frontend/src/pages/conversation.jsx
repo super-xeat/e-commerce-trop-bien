@@ -31,10 +31,10 @@ export default function Conversation() {
   }, [userid])
 
   if (loading) return <p>chargement...</p>
-  if (!user) return <p>vous devez vous connecté</p>
+  if (!user) return <p style={{paddingTop: '4rem'}}>vous devez vous connecté</p>
   
   return (
-    <div style={{paddingTop: '3rem'}}>
+    <div style={{paddingTop: '4rem'}}>
       {user ? (
       <>
       <h1>Conversations de l'utilisateur</h1>

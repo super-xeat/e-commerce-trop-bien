@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/authcontext";
 import { useParams } from "react-router-dom";
 import Commentitem from "./commetitem";
-
+import '../styles/comment.css'
 
 export default function Commentaireform() {
 
@@ -48,8 +48,10 @@ export default function Commentaireform() {
     }
 
     return (
-        <div>
-            <ul>
+        <div className="comment-section">
+            <h2 className="comment-liste">commentaires</h2>
+
+            <ul className="comment-liste">
                 {comments.map((com)=> (
                     <li key={com._id}>
                         <Commentitem comment={com}/>
@@ -57,10 +59,17 @@ export default function Commentaireform() {
                 ))}
             </ul>
 
-            {!authentificated ? <p>vous devez vous connectez pour commenter</p> :
-            <form onSubmit={soumettre_com}>
-                <input onChange={(e)=>settexte(e.target.value)} value={texte} type="text"/>
-                <button type="submit">soumettre</button>
+            {!authentificated ? 
+            <p className="comment-login-warning">vous devez vous connectez pour commenter</p> :
+
+            <form onSubmit={soumettre_com} className="comment-form">
+                <input 
+                onChange={(e)=>settexte(e.target.value)} 
+                value={texte} 
+                type="text"
+                placeholder="ecrire un commentaires"
+                className="comment-input"/>
+                <button type="submit" className="comment-button">soumettre</button>
             </form>
             }
         </div>

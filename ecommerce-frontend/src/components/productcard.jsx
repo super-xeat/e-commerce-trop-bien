@@ -16,8 +16,8 @@ export default function Productcard({produit}) {
             AjouterFavorie, 
             listeFavorie, 
             listeprofil, 
-            setlisteprofil,
             suppFavorie} = useCart()
+            
     const {loading, user} = useAuth()
     const [isfavorie, setisfavorie] = useState(false)
 
@@ -49,16 +49,20 @@ export default function Productcard({produit}) {
 
             <div className="profil">
                 <h5>posté par : {produit.user?.name || "anonyme"} </h5>
-                {produit.user?.image && <img src={`http://localhost:5000/uploads/${produit.user.image}`} style={{width:'30px', height:'auto'}}/>}
+                {produit.user?.image && 
+                <img src={`http://localhost:5000/uploads/${produit.user.image}`}/>}
             </div>
             <hr />
-            <h1>{produit.titre}</h1>
+
+            <h2 className="titre">{produit.titre}</h2>
             
 
-            <div className="image">
+            <div className="image-container">
                 {Array.isArray(produit.images) ? (
                 produit.images.map((prod, index)=> (
-                    <img key={index} src={`http://localhost:5000/uploads/${prod}`} style={{ width: '100%', height: 'auto', maxHeight: '200px', objectFit:'cover'}}/>
+                    <img 
+                    key={index} 
+                    src={`http://localhost:5000/uploads/${prod}`}/>
                 ))
                 ) : produit.images ? 
                 (<img src={`http://localhost:5000/uploads/${produit.images}`}/>) 
@@ -80,11 +84,11 @@ export default function Productcard({produit}) {
                 
             
                 {user && !listeprofil &&
-                <button 
+                (<button 
                 onClick={()=>buttonFAV()} 
                 style={{ backgroundColor: isfavorie ? 'white' : 'red'}}>
                 <FaRegHeart />
-                </button>}
+                </button>)}
                 
                 {!estdanspanier && 
                 <button 
@@ -93,8 +97,7 @@ export default function Productcard({produit}) {
                 <FaShoppingCart/>
                 </button>}
             </div>
-            
-            
+                       
         </div>       
         
     )
