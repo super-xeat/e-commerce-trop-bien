@@ -1,16 +1,85 @@
 
 
-
+/* Global container */
 .conteneur-register {
-    height: 90vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
+    background: #efb551;
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
 }
 
+
 .register {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Headings */
+.register h1,
+.register h3,
+.register h5 {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+/* Inputs */
+.register input[type="text"],
+.register input[type="email"],
+.register input[type="password"],
+.register input[type="file"],
+.register input[type="number"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+.register input:focus {
+    border-color: #0077ff;
+    outline: none;
+}
+
+
+.register button {
+    width: 100%;
+    padding: 0.75rem;
     background-color: orange;
-    padding: 1rem;
-    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.register button:hover {
+    background-color: orangered;
+}
+
+/* Message */
+.register p {
+    color: red;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+
+.conteneur-register a {
+    color: orangered;
+    text-decoration: none;
+}
+
+.conteneur-register a:hover {
+    text-decoration: underline;
 }

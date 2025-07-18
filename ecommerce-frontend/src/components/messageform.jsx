@@ -1,13 +1,21 @@
 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import io from 'socket.io-client'
 
 
 export const Formulaire = ({user1id, user2id, onnewmsg}) => {
 
     const [liste, setliste] = useState('')
+    const [socket, setsocket] = useState(null)
 
 
+    useEffect(()=> {
+        const connexion = io('http://localhost:5000')
+        setsocket(connexion)
+
+        return () => connexion.disconnect()
+    }, [])
 
     async function handlesubmit(e) {
         e.preventDefault()
@@ -22,7 +30,9 @@ export const Formulaire = ({user1id, user2id, onnewmsg}) => {
                 user2: user2id, text: liste.trim()})
             })
 
+            
             const data = await response.json()
+            if (socket) socket.emit("envoi message", data)
             setliste('')
             onnewmsg && onnewmsg(data)
 
@@ -32,6 +42,7 @@ export const Formulaire = ({user1id, user2id, onnewmsg}) => {
         }
     }
 
+    
     return (
         <div>
             <form onSubmit={handlesubmit}>

@@ -26,7 +26,7 @@ export default function Productform() {
         formData.append("price", price);
 
         for (let i = 0; i < images.length; i++) {
-            formData.append("images", images[i])
+            formData.append("images", images[i].file)
         }
         console.log({
             user: user._id,
